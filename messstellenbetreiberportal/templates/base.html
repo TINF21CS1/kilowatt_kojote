@@ -13,7 +13,9 @@
         {% block content %}{% endblock %}
     </div>
     <div class="logo-bar">
-        <img class="logo-bar-element" src="{{ url_for('static', filename='/img/logo.png') }}" alt="Logo"/>
+        <a href="{{ url_for('static', filename='style.css') }}">
+            <img class="logo-bar-element" src="{{ url_for('static', filename='/img/logo.png') }}" alt="Logo"/>
+        </a>
         <div class="logo-bar-element logo-title">
             KilowattKojote
         </div>
