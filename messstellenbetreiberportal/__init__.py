@@ -22,8 +22,9 @@ def create_app(test_config=None):
     except OSError:
         pass
     
-    from .backend import db
-    db.init_app(app)
+    from .backend import smartmeter
+    app.register_blueprint(smartmeter.bp)
+    #db.init_app(app)
 
     from .frontend import smartmeter, supplier, dashboard
     app.register_blueprint(smartmeter.bp)
