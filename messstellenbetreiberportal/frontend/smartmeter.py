@@ -7,7 +7,7 @@ bp = Blueprint('smartmeter', __name__, url_prefix='/smartmeter')
 @bp.route('', methods=['GET'])
 def overview():
     if "id" in request.args:
-        pass
+        return render_template('smartmeter/detail.html')
     else:
-        pass
-    return render_template('smartmeter/overview.html')
+        return render_template('smartmeter/overview.html')
+    

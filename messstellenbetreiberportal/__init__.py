@@ -25,7 +25,9 @@ def create_app(test_config=None):
     from .backend import db
     db.init_app(app)
 
-    from .frontend import smartmeter
+    from .frontend import smartmeter, supplier, dashboard
     app.register_blueprint(smartmeter.bp)
+    app.register_blueprint(supplier.bp)
+    app.register_blueprint(dashboard.bp)
 
     return app
