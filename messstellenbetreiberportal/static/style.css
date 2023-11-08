@@ -11,11 +11,18 @@ div.main-window {
 }
 
 div.flex-container {
-    background-color: #cebded; 
+    background-color: #e5c3d1;
     padding: 2%;
-    display: flex;
-    flex-flow: row wrap;
-    flex: 8;
+    display: grid;
+    grid-template-rows: 10% 90%;
+    box-sizing: border-box;
+    border-radius: 5px;
+}
+
+h1.headline {
+    font-size: 3rem;
+    margin: 0;
+    padding: 0;
 }
 
 div.logo-bar {
@@ -43,4 +50,46 @@ div.logo-bar {
     height: auto;
     object-fit: fill;
     text-align: center;
+}
+
+div.dashboard {
+    display: grid;
+    grid-template-columns: 65% 35%;
+    grid-template-rows: 50% 50%;
+    box-sizing: border-box;
+}
+
+div.uptime-graph {
+    background-color: #7D82B8;
+    margin: 3vh;
+    padding: 3vh;
+    border-radius: 5px;
+    color: white;
+    box-sizing: border-box;
+}
+
+div.uptime-percentage {
+    background-color: #613F75;
+    margin: 3vh;
+    padding: 3vh;
+    border-radius: 5px;
+    color: white;
+    box-sizing: border-box;
+    font-size: 1.5rem;
+}
+
+div.meter-logs {
+    background-color: #F7A9A8;
+    margin: 3vh;
+    padding: 3vh;
+    border-radius: 5px;
+    color: white;
+}
+
+div.meter-map {
+    background-color: #EF798A;
+    margin: 3vh;
+    padding: 3vh;
+    border-radius: 5px;
+    color: white;
 }

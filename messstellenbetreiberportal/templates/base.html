@@ -4,11 +4,12 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 <section class="content">
 <header>
+    {% block header %}{% endblock %}
 </header>
 <div class="main-window">
     <div class="flex-container">
-        <h1>
-            {% block header %}{% endblock %}
+        <h1 class="headline">
+            {% block headline %}{% endblock %}
         </h1>
         {% block content %}{% endblock %}
     </div>
