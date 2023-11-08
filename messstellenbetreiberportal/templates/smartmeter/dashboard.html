@@ -14,34 +14,6 @@
 <div class="dashboard">
     <div class="uptime-graph">
         <canvas id="uptime"></canvas>
-     
-        <script>
-            const labels = {{ labels | tojson}};
-     
-            const data = {
-                labels: labels,
-                datasets: [{
-                    label: 'Uptime',
-                    backgroundColor: 'rgb(255, 99, 132)',
-                    borderColor: 'rgb(255, 99, 132)',
-                    data: {{ data | tojson}},
-                }]
-            };
-
-            Chart.defaults.color = '#FFFFFF';
-     
-            const config = {
-                type: 'line',
-                data: data,
-                options: { maintainAspectRatio: false }
-            };
-     
-            const uptime = new Chart(
-                document.getElementById('uptime'),
-                config
-            );
-     
-        </script>
     </div>
     <div class="uptime-percentage">
         <p> Current uptime: {{ uptime }}% </p>
@@ -56,4 +28,33 @@
         Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet, consetetur sadipscing elitr
     </div>
 </div>
+{% endblock %}
+
+{% block script %}
+<script>
+    const labels = {{ labels | tojson}};
+        
+    const data = {
+        labels: labels,
+        datasets: [{
+            label: 'Uptime',
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: {{ data | tojson}},
+        }]
+    };
+
+    Chart.defaults.color = '#FFFFFF';
+
+    const config = {
+        type: 'line',
+        data: data,
+        options: { maintainAspectRatio: false }
+    };
+
+    const uptime = new Chart(
+        document.getElementById('uptime'),
+        config
+    );
+</script>
 {% endblock %}

@@ -1,9 +1,34 @@
-{% extends 'base.html' %}
+{% extends 'overview_template.html' %}
 
 {% block title %}Stromzähler Übersicht{% endblock %}
 
 {% block headline %}Stromzähler Übersicht{% endblock %}
 
 {% block content %}
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+<table id="data" class="table table-striped">
+    <thead>
+      <tr>
+        <th>UUID</th>
+        <th>Typ</th>
+        <th>Standort</th>
+        <th>Stromanbieter</th>
+        <th>Zählerstand</th>
+        <th>Verbrauch</th>
+        <th>Ø Verbrauch</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for smartmeter in smartmeters %}
+        <tr>
+          <td>{{ smartmeter.uuid }}</td>
+          <td>{{ smartmeter.type }}</td>
+          <td>{{ smartmeter.location }}</td>
+          <td>{{ smartmeter.supplier }}</td>
+          <td>{{ smartmeter.reading }}</td>
+          <td>{{ smartmeter.usage }}</td>
+          <td>{{ smartmeter.avg_usage }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 {% endblock %}

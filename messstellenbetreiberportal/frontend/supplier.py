@@ -5,7 +5,7 @@ from flask import (
 bp = Blueprint('supplier', __name__, url_prefix='/supplier')
 
 @bp.route('', methods=['GET'])
-def overview():
+def supplier():
     return render_template('supplier/overview.html')
 
 @bp.route('/add', methods=['GET', 'POST'])
