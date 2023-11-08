@@ -4,15 +4,15 @@
 
 div.main-window {
     display: grid;
-    column-gap: 30px;
+    column-gap: 1rem;
     grid-template-columns: auto 10%;
     margin: 2%;
-    min-height: 1080px;
+    min-height: 90vh;
 }
 
 div.flex-container {
-    background-color: #BDEDE0; 
-    padding: 20px;
+    background-color: #cebded; 
+    padding: 2%;
     display: flex;
     flex-flow: row wrap;
     flex: 8;
@@ -22,22 +22,24 @@ div.logo-bar {
     display: grid;
     grid-template-columns: 100%;
     grid-template-rows: 10% 45% 15% 15% 15%;
-    padding: 20px;
+    padding: 5%;
     align-content: center;
     align-items: center;    
 }
 
 .logo-title {
     transform: rotate(90deg);
-    font-size: 30px;
+    font-size: 3rem;
+    position: relative;
+    top: -5rem
 }
 
 .logo-icon {
-    font-size: 80px
+    font-size: 3rem
 }
 
 .logo-bar-element {
-    width: 100%;
+    width: auto;
     height: auto;
     object-fit: fill;
     text-align: center;
