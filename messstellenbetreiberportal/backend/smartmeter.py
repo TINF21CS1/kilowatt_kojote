@@ -2,6 +2,14 @@ from flask import Flask, request, jsonify, Blueprint
 
 bp = Blueprint("smartmeter_backend", __name__, url_prefix="/api/smartmeter")
 
-@bp.route("/register", methods=["POST", "GET"])
+@bp.route("/register", methods=["POST"])
 def register():
-    return "registerd"
+    json = request.get_json()
+    print(json)
+    return jsonify(["test", 2, True])
+
+@bp.route("/data", methods=["POST"])
+def register():
+    json = request.get_json()
+    print(json)
+    return jsonify(["test", 2, True])
