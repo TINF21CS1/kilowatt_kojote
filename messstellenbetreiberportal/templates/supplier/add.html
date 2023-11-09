@@ -1,15 +1,22 @@
 {% extends 'base.html' %}
 
-{% block title %}Neuen Anbieter hinzufügen{% endblock %}
+{% block title %}Anbieter anlegen{% endblock %}
 
-{% block headline %}Neuen Anbieter hinzufügen{% endblock %}
+{% block headline %}Anbieter anlegen{% endblock %}
 
 {% block content %} {# TODO: Check if all of this data is validated #}
-  <form method="post">
-    <label for="username">Username</label>
-    <input name="username" id="username" required>
-    <label for="password">Password</label>
-    <input type="password" name="password" id="password" required>
-    <input type="submit" value="Register">
-  </form>
+<div class="supplier-form">
+    <form method="post">
+        <div class="mb-3">
+            <label for="formGroupExampleInput" class="form-label">Name</label>
+            <input type="text" class="form-control" name="name" placeholder="Musterstrom GmbH und Co. KG" required>
+          </div>
+          <div class="mb-3">
+            <label for="exampleFormControlTextarea1" class="form-label">Anmerkungen</label>
+            <textarea class="form-control" name="notes" rows="3" placeholder="Äußerst wichtiger Kunde"></textarea>
+          </div>
+          <button type="submit" class="btn btn-success">Speichern</button>
+          <a href="{{ url_for('supplier.supplier') }}" class="btn btn-danger">Abbrechen</a>
+      </form>
+</div>
 {% endblock %}

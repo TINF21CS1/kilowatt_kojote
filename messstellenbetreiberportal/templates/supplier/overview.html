@@ -1,32 +1,29 @@
 {% extends 'overview_template.html' %}
 
-{% block title %}Anbieter Übersicht{% endblock %}
+{% block title %}Anbieterübersicht{% endblock %}
 
-{% block headline %}Anbieter Übersicht{% endblock %}
+{% block headline %}Anbieterübersicht{% endblock %}
+
+{% block headline_buttons %}
+    <a href="{{ url_for('supplier.add') }}" class="btn btn-primary">Anbieter anlegen</a>
+    <a href="{{ url_for('supplier.assign') }}" class="btn btn-primary">Stromzähler und Anbieter verknüpfen</a>
+{% endblock %}
 
 {% block content %}
 <table id="data" class="table table-striped">
     <thead>
       <tr>
-        <th>UUID</th>
-        <th>Typ</th>
-        <th>Standort</th>
-        <th>Stromanbieter</th>
-        <th>Zählerstand</th>
-        <th>Verbrauch</th>
-        <th>Ø Verbrauch</th>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Anmerkungen</th>
       </tr>
     </thead>
     <tbody>
-      {% for smartmeter in smartmeters %}
+      {% for supplier in suppliers %}
         <tr>
           <td>{{ smartmeter.uuid }}</td>
           <td>{{ smartmeter.type }}</td>
-          <td>{{ smartmeter.location }}</td>
-          <td>{{ smartmeter.supplier }}</td>
-          <td>{{ smartmeter.reading }}</td>
-          <td>{{ smartmeter.usage }}</td>
-          <td>{{ smartmeter.avg_usage }}</td>
+          <td>{{ smartmeter.notes }}</td>
         </tr>
       {% endfor %}
     </tbody>
