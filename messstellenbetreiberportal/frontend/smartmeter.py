@@ -4,7 +4,7 @@ from flask import (
 
 bp = Blueprint('smartmeter', __name__, url_prefix='/smartmeter')
 
-@bp.route('', methods=['GET'])
+@bp.route('', methods=['GET', 'POST'])
 def smartmeter():
     if "id" in request.args:
         return detail()
@@ -12,6 +12,10 @@ def smartmeter():
         return overview()
     
 def overview():
+    if request.method == 'POST' and "id" in request.form:
+        # TODO: Insert Revoke Functionality
+        pass
+
     # Random input for testing smartmeter overview
     smartmeters = [
         {
@@ -43,9 +47,23 @@ def overview():
         },
     ]
 
-
     return render_template('smartmeter/overview.html', smartmeters=smartmeters*100)
 
 def detail():
-    return render_template('smartmeter/detail.html')
+    # Define Plot Data 
+    labels = [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+    ]
+ 
+    data = [0, 10, 15, 8, 22, 18, 25]
+    return render_template(
+        uuid=request.args.get("id"),
+        data=data,
+        labels=labels,
+        template_name_or_list='smartmeter/detail.html')
     
