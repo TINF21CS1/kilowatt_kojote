@@ -13,7 +13,7 @@ paths:
         content:
           application/json:
             example: '{"uuid": "a3b639f1-1ea2-4eda-97d0-4ddd68b4514a", "type": 0}'
-        description: "type: 0: residential, 1, industry, 3 eispeise"
+        description: "type: 0: residential, 1: industry, 2: feed-in"
         required: true
       responses:
         "200":
