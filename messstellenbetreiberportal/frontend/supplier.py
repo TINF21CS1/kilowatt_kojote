@@ -20,4 +20,60 @@ def add():
 
 @bp.route('/assign', methods=['GET', 'POST'])
 def assign():
-    return render_template('supplier/add.html')
+    if request.method == 'POST':
+        smartmeter = request.form['smartmeter']
+        supplier = request.form['supplier']
+        # TODO: Add code to add assignment to database
+        return redirect(url_for('supplier.supplier'))
+    
+    # Create list of smartmeters
+    smartmeters = [
+        {
+            "uuid": "123456789012sgf34567890123456789012",
+            "type": "Smartmeter",
+            "location": "Keller",
+            "supplier": "Stadtwerke",
+            "reading": "1234567890",
+            "usage": "1234567890",
+            "avg_usage": "1234567890"
+        },
+        {
+            "uuid": "23452345",
+            "type": "Smartmeter",
+            "location": "Keller",
+            "supplier": "LOLOL",
+            "reading": "1234567890",
+            "usage": "1234567890",
+            "avg_usage": "1234567890"
+        },
+        {
+            "uuid": "qwerqwerqwer",
+            "type": "Smartmeter",
+            "location": "Keller",
+            "supplier": "LOLOL",
+            "reading": "1234567890",
+            "usage": "1234567890",
+            "avg_usage": "1234567890"
+        },
+    ]
+
+    # Create list of suppliers
+    suppliers = [
+        {
+            "uuid": "123456789012sgf34567890123456789012",
+            "name": "Stadtwerke",
+        },
+        {
+            "uuid": "23452345",
+            "name": "LOLOL",
+        },
+        {
+            "uuid": "qwerqwerqwer",
+            "name": "LOLOL",
+        }
+    ]
+
+    return render_template(
+        suppliers = suppliers,
+        smartmeters = smartmeters,
+        template_name_or_list='supplier/assign.html')

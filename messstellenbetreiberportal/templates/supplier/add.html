@@ -8,12 +8,12 @@
 <div class="supplier-form">
     <form method="post">
         <div class="mb-3">
-            <label for="formGroupExampleInput" class="form-label">Name</label>
-            <input type="text" class="form-control" name="name" placeholder="Musterstrom GmbH und Co. KG" required>
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="Musterstrom GmbH und Co. KG" required>
           </div>
           <div class="mb-3">
-            <label for="exampleFormControlTextarea1" class="form-label">Anmerkungen</label>
-            <textarea class="form-control" name="notes" rows="3" placeholder="Äußerst wichtiger Kunde"></textarea>
+            <label for="notes" class="form-label">Anmerkungen</label>
+            <textarea class="form-control" id="notes" name="notes" rows="3" placeholder="Äußerst wichtiger Kunde"></textarea>
           </div>
           <button type="submit" class="btn btn-success">Speichern</button>
           <a href="{{ url_for('supplier.supplier') }}" class="btn btn-danger">Abbrechen</a>
