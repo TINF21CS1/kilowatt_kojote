@@ -146,7 +146,7 @@ paths:
           description: OK
           content:
             application/json:
-              example: '{"id": 2, name": "Naturstrom", "notes": "voll öko und so"}'
+              example: '{"id": 2}'
       summary: "Erstellt neuen Stromanbieter"
   
   /frontend/supplier/assign:
