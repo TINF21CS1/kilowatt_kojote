@@ -19,10 +19,10 @@ crossorigin=""/>
         <canvas id="uptime"></canvas>
     </div>
     <div class="uptime-percentage">
-        <p> Current uptime: {{ uptime }}% </p>
-        <p> Average uptime over the last 30 days: {{ average_uptime }}% </p>
-        <p> Current usage: {{ usage }}% </p>
-        <p> Average usage over the last 30 days: {{ average_usage }}% </p>
+        <p> Aktuelle Verfügbarkeit: {{ current_uptime*100 }}% </p>
+        <p> Verfügbarkeit über den letzten 24 Stunden: {{ average_uptime*100 }}% </p>
+        <p> Aktueller Verbrauch: {{ usage }}kW </p>
+        <p> Verbrauch über den letzten 24 Stunden: {{ average_usage }}kW </p>
     </div>
     <div class="meter-map">
         <div id="map"></div>
@@ -52,7 +52,6 @@ crossorigin=""/>
 {% block script %}
 <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
- <!-- Make sure you put this AFTER Leaflet's CSS -->
  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
      crossorigin=""></script>
@@ -63,7 +62,7 @@ crossorigin=""/>
     const data = {
         labels: labels,
         datasets: [{
-            label: 'Uptime',
+            label: 'Durschnittliche Verfügbarkeit',
             backgroundColor: 'rgb(255, 99, 132)',
             borderColor: 'rgb(255, 99, 132)',
             data: {{ data | tojson}},
@@ -90,5 +89,8 @@ crossorigin=""/>
         maxZoom: 19,
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
+    {% for smartmeter in smartmeters %}
+        var marker_{{ smartmeter.uuid }} = L.marker([{{ smartmeter.latitude }}, {{ smartmeter.longitude }}]).addTo(map);
+    {% endfor %}
 </script>
 {% endblock %}
