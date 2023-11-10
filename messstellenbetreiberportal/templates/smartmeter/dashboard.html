@@ -19,8 +19,8 @@ crossorigin=""/>
         <canvas id="uptime"></canvas>
     </div>
     <div class="uptime-percentage">
-        <p> Aktuelle Verfügbarkeit: {{ current_uptime*100 }}% </p>
-        <p> Verfügbarkeit über den letzten 24 Stunden: {{ average_uptime*100 }}% </p>
+        <p> Aktuelle Verfügbarkeit: {{ current_uptime }}% </p>
+        <p> Verfügbarkeit über den letzten 24 Stunden: {{ average_uptime }}% </p>
         <p> Aktueller Verbrauch: {{ usage }}kW </p>
         <p> Verbrauch über den letzten 24 Stunden: {{ average_usage }}kW </p>
     </div>
@@ -90,7 +90,7 @@ crossorigin=""/>
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
     {% for smartmeter in smartmeters %}
-        var marker_{{ smartmeter.uuid }} = L.marker([{{ smartmeter.latitude }}, {{ smartmeter.longitude }}]).addTo(map);
+        var marker_{{ smartmeter["uuid"] }} = L.marker([{{ smartmeter["location"][0] }}, {{ smartmeter["location"][1] }}], {title:"{{ smartmeter["uuid"] }}" }).addTo(map);
     {% endfor %}
 </script>
 {% endblock %}

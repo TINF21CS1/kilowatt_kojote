@@ -26,6 +26,10 @@ def dashboard():
 
     average_uptime = sum(last_24_hour_uptime.values()) / len(last_24_hour_uptime)
 
+    # Location Data from string
+    for smartmeter in smartmeters:
+        smartmeter['location'] = [float(coord) for coord in smartmeter['location'].split(',')]
+
     # Define Plot Data 
     labels = [datetime.utcfromtimestamp(stamp).strftime('%Y-%m-%d %H:%M:%S') for stamp in uptime.keys()]
     data = list(uptime.values())
@@ -35,6 +39,7 @@ def dashboard():
         template_name_or_list='smartmeter/dashboard.html',
         data=data,
         labels=labels,
-        current_uptime = round(data[-1], 4),
-        average_uptime = round(average_uptime, 4),
+        current_uptime = round(data[-1]*100, 2),
+        average_uptime = round(average_uptime*100, 2),
+        smartmeters=smartmeters
     )
