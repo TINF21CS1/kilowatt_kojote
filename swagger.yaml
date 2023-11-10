@@ -36,131 +36,6 @@ paths:
           description: Certificate not Valid
       summary: "Smartmeter Daten einreichen"
   
-  /frontend/smartmeter:
-    get:
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              example: '[{"uuid": "a3b639f1-1ea2-4eda-97d0-4ddd68b4514a", "type": 0, "location": "49.29131790753691, 8.699754540475123", "supplier": "EnBW", "data": [{"timestamp": 1698934659, "reading": 123456},{"timestamp": 1698934900, "reading": 123457}]}]'
-  
-  /frontend/smartmeter/reading:
-    get:
-      parameters:
-        - in: query
-          schema:
-            type: string
-          name: id
-          required: true
-          description: UUID of the smartmeter to get the reading of
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              example: '[{"timestamp": 1698934659, "reading": 123456},{"timestamp": 1698934900, "reading": 123457}]'
-  
-  /frontend/smartmeter/usage:
-    get:
-      parameters:
-        - in: query
-          name: id
-          schema:
-            type: string
-          required: true
-          description: UUID of the smartmeter to get the reading of
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              example: '[{"timestamp": 1698934900, "reading": 4}, {"timestamp": 1698935100, "reading": 3}]'
-              
-  /frontend/smartmeter/revoke:
-    post:
-      parameters:
-        - in: query
-          name: id
-          schema:
-            type: string
-          required: true
-          description: UUID of the smartmeter to get the reading of
-      description: Revoke Certificate of a smartmeter
-      responses:
-        "200":
-          description: OK
-  
-  /frontend/smartmeter/supplier:
-    get:
-      parameters:
-        - in: query
-          name: id
-          schema:
-            type: string
-          required: true
-          description: UUID of the smartmeter to get the reading of
-      description: Get Supplier of a specific smartmeter
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              example: '{"supplier": "EnBW"}'
-
-  /frontend/supplier:
-    get:
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              example: '[{ "supplier": "EnBW", "id": 1}]'
-  
-  /frontend/supplier/smartmeter:
-    get:
-      parameters:
-        - in: query
-          name: id
-          schema:
-            type: string
-          required: true
-          description: ID of the supplier
-      description: Get Smartmeters of a specific supplier
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              example: '[{"uuid": "a3b639f1-1ea2-4eda-97d0-4ddd68b4514a", "type": 0, "location": "49.29131790753691, 8.699754540475123", "supplier": "EnBW"}]'
-  
-  /frontend/supplier/add:
-    post:
-      requestBody:
-        content:
-          application/json:
-            example: '{"name": "Naturstrom", "notes": "voll öko und so"}'
-        required: true
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              example: '{"id": 2}'
-      summary: "Erstellt neuen Stromanbieter"
-  
-  /frontend/supplier/assign:
-    post:
-      requestBody:
-        content:
-          application/json:
-            example: '{"supplier": "EnBW", "smartmeter": "a3b639f1-1ea2-4eda-97d0-4ddd68b4514a"}'
-        required: true
-      responses:
-        "200":
-          description: OK
-      summary: "Ein bestimmtes smartmeter einem supplier zuordnen"
-  
   /supplier/reading/history:
     get:
       parameters:
@@ -236,7 +111,7 @@ paths:
       description: Get Smartmeters assigned to own Supplier
       responses:
         "200":
-          description: OK
+          description: OK, Location coordinates in decimal format and in range 47.754 - 53.392 (latitude), 07.071 - 14.256 (longitude)
           content:
             application/json:
               example: '[{"uuid": "a3b639f1-1ea2-4eda-97d0-4ddd68b4514a", "type": 0, "location": "49.29131790753691, 8.699754540475123", "supplier": "EnBW"}]'
