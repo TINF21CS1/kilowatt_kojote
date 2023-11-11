@@ -1,8 +1,6 @@
 {% extends 'base.html' %}
 
 {% block header %} 
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css" />
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
 integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
@@ -32,6 +30,7 @@ crossorigin=""/>
         <table id="data" class="table table-striped">
             <thead>
               <tr>
+                <th>ID</th>
                 <th>Zeitpunkt</th>
                 <th>Fehlermeldung</th>
               </tr>
@@ -39,6 +38,7 @@ crossorigin=""/>
             <tbody>
               {% for error in errors %}
                 <tr>
+                    <td>{{ error.uuid }}</td>
                     <td>{{ error.timestamp }}</td>
                     <td>{{ error.message }}</td>
                 </tr>
@@ -50,9 +50,18 @@ crossorigin=""/>
 {% endblock %}
 
 {% block script %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
- <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+
+<script>
+    $(document).ready(function () {
+      $('#data').DataTable();
+    });
+  </script>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
      crossorigin=""></script>
 

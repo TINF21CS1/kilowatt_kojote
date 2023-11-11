@@ -4,6 +4,14 @@ from collections import OrderedDict
 INTERVAL = 60*15 # 15 minutes
 TIMEFRAME = 60*60*24*30 # 30 days
 
+def get_duration_downtime(last_reading:dict, current_time = int(time.time())) -> int:
+    """Calculates the duration of a downtime from a reading.
+    """
+
+    downtime = last_reading['timestamp'] - current_time
+
+    return downtime
+
 def get_uptime(readings:list, interval:int = INTERVAL, timeframe:int = TIMEFRAME, current_time = int(time.time())) -> dict:
     """Calculates the uptime of a smartmeter from a list of readings.
 

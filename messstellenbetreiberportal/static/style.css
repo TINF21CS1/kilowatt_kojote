@@ -14,7 +14,7 @@ div.flex-container {
     background-color: #e5c3d1;
     padding: 2%;
     display: grid;
-    grid-template-rows: 10% 90%;
+    grid-template-rows: 10% auto;
     box-sizing: border-box;
     border-radius: 5px;
 }
@@ -63,8 +63,8 @@ div.logo-bar {
 
 div.dashboard {
     display: grid;
-    grid-template-columns: minmax(0, 65%) minmax(0, 35%);
-    grid-template-rows: minmax(0, 50%) minmax(0, 50%);
+    grid-template-columns: minmax(0, 65vw) minmax(0, 35vw);
+    grid-template-rows: minmax(0, 40vh) minmax(0, 40vh);
     box-sizing: border-box;
     grid-gap: 5vh;
 }
@@ -91,6 +91,8 @@ div.meter-logs {
     padding: 3vh;
     border-radius: 5px;
     color: white;
+    overflow: auto;
+    font-size: smaller;
 }
 
 div.meter-map {
@@ -111,6 +113,11 @@ th, td {
     border: 1px solid rgb(255, 255, 255);
     padding: 10px;
     max-height: 2em;
+}
+
+td {
+    overflow:hidden;
+    word-wrap: break-word;
 }
 
 div.readings {

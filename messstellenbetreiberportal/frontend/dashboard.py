@@ -5,6 +5,7 @@ from flask import (
 from datetime import datetime
 from .testdata import get_smartmeter_test_list
 from .availability import uptime_smartmeters, TIMEFRAME, INTERVAL
+from .errors import errors_smartmeter
 import time
 
 bp = Blueprint('dashboard', __name__, url_prefix='/')
@@ -41,5 +42,6 @@ def dashboard():
         labels=labels,
         current_uptime = round(data[-1]*100, 2),
         average_uptime = round(average_uptime*100, 2),
-        smartmeters=smartmeters
+        smartmeters=smartmeters,
+        errors=errors_smartmeter(smartmeters),
     )
