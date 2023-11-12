@@ -1,57 +1,27 @@
-from flask import Flask, request, jsonify, Blueprint
 
-bp = Blueprint("frontend_backend", __name__, url_prefix="/api/frontend")
+def smartmeter() -> list(dict):
+    return
 
-@bp.route("/smartmeter", methods=["GET"])
-def register():
-    json = request.get_json()
-    print(json)
-    return jsonify(["test", 2, True])
+def smartmeter_reading() -> list(dict):
+    return
 
-@bp.route("/smartmeter/reading", methods=["GET"])
-def register():
-    json = request.get_json()
-    print(json)
-    return jsonify(["test", 2, True])
+def smartmeter_usage() -> list(dict):
+    return
 
-@bp.route("/smartmeter/usage", methods=["GET"])
-def register():
-    json = request.get_json()
-    print(json)
-    return jsonify(["test", 2, True])
+def smartmeter_revoke(uuid: str):
+    return
 
-@bp.route("/smartmeter/revoke", methods=["POST"])
-def register():
-    json = request.get_json()
-    print(json)
-    return jsonify(["test", 2, True])
+def smartmeter_supplier() -> dict:
+    return
 
-@bp.route("/smartmeter/supplier", methods=["GET"])
-def register():
-    json = request.get_json()
-    print(json)
-    return jsonify(["test", 2, True])
+def supplier() -> list(dict):
+    return
 
-@bp.route("/supplier", methods=["GET"])
-def register():
-    json = request.get_json()
-    print(json)
-    return jsonify(["test", 2, True])
+def supplier_smartmeter() -> list(dict):
+    return
 
-@bp.route("/supplier/smartmeter", methods=["GET"])
-def register():
-    json = request.get_json()
-    print(json)
-    return jsonify(["test", 2, True])
+def supplier_add(name: str, notes: str) -> dict:
+    return
 
-@bp.route("/supplier/add", methods=["POST"])
-def register():
-    json = request.get_json()
-    print(json)
-    return jsonify(["test", 2, True])
-
-@bp.route("/supplier/assign", methods=["POST"])
-def register():
-    json = request.get_json()
-    print(json)
-    return jsonify(["test", 2, True])
+def supplier_assign(supplier: str, smartmeterID: str):
+    return

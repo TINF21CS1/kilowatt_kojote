@@ -13,7 +13,7 @@ def register():
     return jsonify(["test", 2, True])
 
 @bp.route("/data", methods=["POST"])
-def register():
+def data():
     json = request.get_json()
     print(json)
     return jsonify(["test", 2, True])
