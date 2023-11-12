@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify, Blueprint
+from .db import db_manager
 
 bp = Blueprint("smartmeter_backend", __name__, url_prefix="/api/smartmeter")
 
