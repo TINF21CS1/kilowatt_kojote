@@ -1,0 +1,49 @@
+---
+- hosts: all
+  vars:
+    hetzner_ipv6_net: "2a01:4f8:1c1c:dfb7::"
+
+  tasks:
+    - name: "Add SSH Authorized Keys"
+      ansible.posix.authorized_key:
+        user: "root"
+        state: present
+        key: "{{ item }}"
+      with_items:
+        - "https://raw.githubusercontent.com/JM-Lemmi/JM-Lemmi/main/authorized_keys"
+        - "https://raw.githubusercontent.com/Petzys/Petzys/main/authorized_keys"
+    
+    - name: Update and upgrade apt packages
+      apt:
+        upgrade: yes
+        update_cache: yes
+
+    - name: "[Docker Setup] Install Dependencies"
+      ansible.builtin.apt:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - python3
+          - pipx
+          - python3-docker
+        state: present
+        update_cache: true
+    - name: "[Docker Setup] Docker Repo-GPG"
+      ansible.builtin.apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+    - name: "[Docker Setup] Docker Repository"
+      ansible.builtin.apt_repository:
+        repo: "deb https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable"
+        state: present
+    - name: "[Docker Setup] Install Docker"
+      ansible.builtin.apt:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-compose-plugin
+        state: present
+        update_cache: true
+
