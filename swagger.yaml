@@ -27,7 +27,7 @@ paths:
       requestBody:
         content:
           application/json:
-            example: '[{"timestamp": 1698934659, "reading": 123456}]'
+            example: '[{"timestamp": 1698934659, "reading": 123456, "uuid": "a3b639f1-1ea2-4eda-97d0-4ddd68b4514a"}]'
         description: "contains one or more datapoints of reading in kWh."
       responses:
         "200":
