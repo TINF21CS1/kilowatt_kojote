@@ -1,27 +1,27 @@
 
-def smartmeter() -> list(dict):
+def frontend_smartmeter() -> list(dict):
     return
 
-def smartmeter_reading() -> list(dict):
+def frontend_smartmeter_reading() -> list(dict):
     return
 
-def smartmeter_usage() -> list(dict):
+def frontend_smartmeter_usage() -> list(dict):
     return
 
-def smartmeter_revoke(uuid: str):
+def frontend_smartmeter_revoke(uuid: str):
     return
 
-def smartmeter_supplier() -> dict:
+def frontend_smartmeter_supplier() -> dict:
     return
 
-def supplier() -> list(dict):
+def frontend_supplier() -> list(dict):
     return
 
-def supplier_smartmeter() -> list(dict):
+def frontend_supplier_smartmeter() -> list(dict):
     return
 
-def supplier_add(name: str, notes: str) -> dict:
+def frontend_supplier_add(name: str, notes: str) -> dict:
     return
 
-def supplier_assign(supplier: str, smartmeterID: str):
+def frontend_supplier_assign(supplier: str, smartmeterID: str):
     return
