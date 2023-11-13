@@ -8,7 +8,7 @@ CREATE TABLE Stromanbieter (
 );
 
 CREATE TABLE Stromzaehler (
-  uuid INTEGER PRIMARY KEY AUTOINCREMENT,
+  serial_number TEXT PRIMARY KEY,
   counter_type TINYINT NOT NULL,
   supplier_id INTEGER,
   FOREIGN KEY (supplier_id) REFERENCES Stromanbieter (supplier_id)
