@@ -2,24 +2,24 @@ import os
 import sqlite3
 
 con = sqlite3.connect(os.path.join(os.path.dirname(__file__), "database.db"))
+cursor = con.cursor()
 
-def close_db(e=None):
-    db = None#g.pop('db', None)
+def smartmeter_register(uuid, type):
 
-    if db is not None:
-        db.close()
+    query = "INSERT INTO Stromzaehler (serial_number, counter_type) VALUES(?, ?);"
+    try:
+        cursor.execute(query, (uuid, type))
+        con.commit()
+    except sqlite3.IntegrityError:
+        # Don't return error so that an attacker, having compormised a reader, does not get any feedback as to whether their operation worked
+        print("Integrity error")
+        pass
 
 def init_db():
 
     with open(os.path.join(os.path.dirname(__file__), "schema.sql")) as schema:
         con.executescript(schema.read())
         con.commit()
-
-
-def init_db_command():
-    """Clear the existing data and create new tables."""
-    #init_db()
-    #click.echo('Initialized the database.')
 
 if __name__ == "__main__":
     init_db()
