@@ -20,8 +20,8 @@ def frontend_supplier() -> list(dict):
 def frontend_supplier_smartmeter() -> list(dict):
     return
 
-def frontend_supplier_add(name: str, notes: str) -> dict:
+def frontend_supplier_add(json: dict) -> dict:
     return
 
-def frontend_supplier_assign(supplier: str, smartmeterID: str):
+def frontend_supplier_assign(json: dict):
     return
