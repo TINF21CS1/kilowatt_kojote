@@ -1,21 +1,32 @@
 import os
 import sqlite3
 
-con = sqlite3.connect(os.path.join(os.path.dirname(__file__), "database.db"))
-cursor = con.cursor()
-
 def smartmeter_register(uuid, type):
 
-    query = "INSERT INTO Stromzaehler (serial_number, counter_type) VALUES(?, ?);"
-    try:
-        cursor.execute(query, (uuid, type))
-        con.commit()
-    except sqlite3.IntegrityError:
-        # Don't return error so that an attacker, having compormised a reader, does not get any feedback as to whether their operation worked
-        print("Integrity error")
-        pass
+    query = "INSERT OR IGNORE INTO Stromzaehler (serial_number, counter_type) VALUES(?, ?);"
+
+    con = sqlite3.connect(os.path.join(os.path.dirname(__file__), "database.db"))
+    cursor = con.cursor()
+
+    cursor.execute(query, (uuid, type))
+    con.commit()
+    cursor.close()
+
+def smartmeter_data(uuid, timestamp, actual_timestamp, reading):
+
+    query = "INSERT OR IGNORE INTO Zaehlerstaende (uuid, record_timestamp, actual_timestamp, reading) VALUES(?, ?, ?, ?);"
+
+    con = sqlite3.connect(os.path.join(os.path.dirname(__file__), "database.db"))
+    cursor = con.cursor()
+
+    cursor.execute(query, (uuid, timestamp, actual_timestamp, reading))
+    con.commit()
+    cursor.close()
+
 
 def init_db():
+
+    con = sqlite3.connect(os.path.join(os.path.dirname(__file__), "database.db"))
 
     with open(os.path.join(os.path.dirname(__file__), "schema.sql")) as schema:
         con.executescript(schema.read())
