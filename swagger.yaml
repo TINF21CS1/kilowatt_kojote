@@ -13,6 +13,18 @@ paths:
         content:
           application/json:
             example: '{"type": 0}'
+            schema: {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "description": "Type of the smartmeter",
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 2
+                }
+              },
+              "required": ["type"]
+            }
         description: "type: 0: residential, 1: industry, 2: feed-in"
         required: true
       responses:
@@ -28,6 +40,25 @@ paths:
         content:
           application/json:
             example: '[{"timestamp": 1698934659, "reading": 123456}]'
+            schema: {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "timestamp": {
+                    "description": "Timestamp of the submitted reading",
+                    "type": "integer",
+                    "minimum": 1672527600
+                  },
+                  "reading": {
+                    "description": "The reading of the reader at the timestamp",
+                    "type": "integer"
+                  }
+                },
+                "required": ["timestamp", "reading"]
+              },
+              "minItems": 1
+            }
         description: "contains one or more datapoints of reading in kWh."
       responses:
         "200":
