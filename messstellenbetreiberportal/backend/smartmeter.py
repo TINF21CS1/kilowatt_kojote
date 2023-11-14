@@ -7,10 +7,13 @@ bp = Blueprint("smartmeter_backend", __name__, url_prefix="/api/smartmeter")
 def register():
     json = request.get_json()
 
-    if not ("uuid" in json and "type" in json):
-        return "", 404
+    if not "type" in json or type(reader_type := json["type"]) != int:
+        return "", 400
 
-    print(json)
+    sim_uuid = "test"
+
+    db_manager.smartmeter_register(sim_uuid, reader_type)
+    
     return jsonify(["test", 2, True])
 
 @bp.route("/data", methods=["POST"])
