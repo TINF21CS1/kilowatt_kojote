@@ -1,6 +1,8 @@
 import os
 import sqlite3
 
+# TODO: check_supplier_owns_reader fertigstellen und supplier_reading_history fertigstellen und in supplier.py funktion beide aufrufen und checken ob dem supplier der stromzähler zugeordnet ist. Außerdem noch in allen funktionen die integration mit den headern die von nginx mitkommen fertigstellen, sodass supplier_serial und stromzähler uuid direkt daraus gelesen und verwendet werden
+
 def smartmeter_register(uuid, type):
 
     query = "INSERT OR IGNORE INTO Stromzaehler (serial_number, counter_type) VALUES(?, ?);"
