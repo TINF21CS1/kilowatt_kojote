@@ -3,15 +3,15 @@ DROP TABLE IF EXISTS Stromzaehler;
 DROP TABLE IF EXISTS Zaehlerstaende;
 
 CREATE TABLE Stromanbieter (
-  supplier_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  supplier_serial_number TEXT PRIMARY KEY,
   supplier_name TEXT UNIQUE NOT NULL
 );
 
 CREATE TABLE Stromzaehler (
   serial_number TEXT PRIMARY KEY,
   counter_type TINYINT NOT NULL,
-  supplier_id INTEGER,
-  FOREIGN KEY (supplier_id) REFERENCES Stromanbieter (supplier_id)
+  supplier_serial_number INTEGER,
+  FOREIGN KEY (supplier_serial_number) REFERENCES Stromanbieter (supplier_serial_number)
 );
 
 CREATE TABLE Zaehlerstaende (
