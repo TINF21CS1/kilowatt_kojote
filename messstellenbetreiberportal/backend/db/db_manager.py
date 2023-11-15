@@ -23,6 +23,18 @@ def smartmeter_data(uuid, timestamp, actual_timestamp, reading):
     con.commit()
     cursor.close()
 
+def supplier_reading_history(uuid):
+
+    query = "SELECT record_timestamp, reading FROM Zaehlerstaende WHERE uuid = ?"
+
+    con = sqlite3.connect(os.path.join(os.path.dirname(__file__), "database.db"))
+    cursor = con.cursor()
+
+    cursor.execute(query, (uuid,))
+
+def check_supplier_owns_reader(supplier_serial, uuid):
+
+    query = "SELECT * FROM Stromanbieter"
 
 def init_db():
 
