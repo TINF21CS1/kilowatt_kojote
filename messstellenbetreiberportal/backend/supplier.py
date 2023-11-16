@@ -22,7 +22,7 @@ def reading_history():
     sim_supplier_id = "abc"
 
     if not db_manager.check_supplier_owns_reader(sim_supplier_id, uuid):
-        return "", 400
+        return "", 403
 
     return db_manager.supplier_reading_history(uuid)    #TODO: An der stelle checken, wie der rückgabewert aussieht, es ist bestimmt kein dict in der liste, da muss ich vllt ne list/dict-comprehension machen
 
