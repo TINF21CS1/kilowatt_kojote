@@ -25,6 +25,7 @@ def smartmeter_data(uuid, timestamp, actual_timestamp, reading):
     con.commit()
     cursor.close()
 
+# Here we only take a uuid, not the supplier id, because it should be checked before if a supplier owns this uuid
 def supplier_reading_history(uuid):
 
     query = "SELECT record_timestamp, reading FROM Zaehlerstaende WHERE uuid = ?"
@@ -32,11 +33,19 @@ def supplier_reading_history(uuid):
     con = sqlite3.connect(os.path.join(os.path.dirname(__file__), "database.db"))
     cursor = con.cursor()
 
-    cursor.execute(query, (uuid,))
+    res = cursor.execute(query, (uuid,))
+    return res.fetchall()
 
 def check_supplier_owns_reader(supplier_serial, uuid):
 
-    query = "SELECT * FROM Stromanbieter"
+    query = "SELECT * FROM Stromzaehler WHERE serial_number = ? AND supplier_serial_number = ?"
+
+    con = sqlite3.connect(os.path.join(os.path.dirname(__file__), "database.db"))
+    cursor = con.cursor()
+
+    res = cursor.execute(query, (uuid,))
+
+    return res.fetchone() is not None
 
 def init_db():
 
