@@ -43,18 +43,6 @@ def reading_current():
 
     return db_manager.supplier_reading_current(serial_number)   # TODO: Auch hier schauen, wie der rückgabewert der db aussieht. bestimmt kein dict
 
-@bp.route("/usage/history", methods=["GET"])
-def usage_history():
-    json = request.get_json()
-    print(json)
-    return jsonify(["test", 2, True])
-
-@bp.route("/usage/current", methods=["GET"])
-def usage_current():
-    json = request.get_json()
-    print(json)
-    return jsonify(["test", 2, True])
-
 @bp.route("/smartmeter", methods=["GET"])
 def smartmeter():
     json = request.get_json()

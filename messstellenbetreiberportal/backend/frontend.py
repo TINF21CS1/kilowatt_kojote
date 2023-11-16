@@ -47,9 +47,6 @@ def frontend_smartmeter() -> list(dict):
 def frontend_smartmeter_reading() -> list(dict):
     return
 
-def frontend_smartmeter_usage() -> list(dict):
-    return
-
 def frontend_smartmeter_revoke(uuid: str):
     return
 
