@@ -51,7 +51,7 @@ def register():
 
     db_manager.smartmeter_register(sim_uuid, json["type"])
     
-    return "", 200
+    return ""
 
 @bp.route("/data", methods=["POST"])
 def data():
@@ -69,4 +69,4 @@ def data():
     for element in json:
         db_manager.smartmeter_data(sim_uuid, element["timestamp"], actual_timestamp, element["reading"])
 
-    return "", 200
+    return ""
