@@ -60,6 +60,18 @@ def supplier_smartmeters(supplier_serial):
 
     return res.fetchall()
 
+def frontend_smartmeter():
+
+    # TODO: Hier noch die Location in das select einfügen
+    query = "SELECT z.serial_number, z.counter_type, a.supplier_name FROM Stromzaehler z INNER JOIN Stromanbieter a ON z.supplier_serial_number = a.supplier_serial_number"
+
+    con = sqlite3.connect(db_path)
+    cursor = con.cursor()
+
+    res = cursor.execute(query)
+
+    return res.fetchall()
+
 def check_supplier_owns_reader(supplier_serial, serial_number):
 
     query = "SELECT * FROM Stromzaehler WHERE serial_number = ? AND supplier_serial_number = ?"
