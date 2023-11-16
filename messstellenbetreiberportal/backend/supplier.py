@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, Blueprint
+from flask import request, jsonify, Blueprint
 from .db import db_manager
 import jsonschema
 
@@ -24,7 +24,7 @@ def reading_history():
     if not db_manager.check_supplier_owns_reader(sn, serial_number):
         return "", 403
 
-    return db_manager.supplier_reading_history(serial_number)    #TODO: An der stelle checken, wie der rückgabewert aussieht, es ist bestimmt kein dict in der liste, da muss ich vllt ne list/dict-comprehension machen
+    return jsonify(db_manager.supplier_reading_history(serial_number))    #TODO: An der stelle checken, wie der rückgabewert aussieht, es ist bestimmt kein dict in der liste, da muss ich vllt ne list/dict-comprehension machen
 
 @bp.route("/reading/current", methods=["GET"])
 def reading_current():
@@ -36,15 +36,16 @@ def reading_current():
     except jsonschema.ValidationError:
         return "", 400
 
-    sim_supplier_id = "abc"
+    sn = request.headers.get("X-Serialnumber")
 
-    if not db_manager.check_supplier_owns_reader(sim_supplier_id, serial_number):
+    if not db_manager.check_supplier_owns_reader(sn, serial_number):
         return "", 403
 
-    return db_manager.supplier_reading_current(serial_number)   # TODO: Auch hier schauen, wie der rückgabewert der db aussieht. bestimmt kein dict
+    return jsonify(db_manager.supplier_reading_current(serial_number))   # TODO: Auch hier schauen, wie der rückgabewert der db aussieht. bestimmt kein dict
 
 @bp.route("/smartmeter", methods=["GET"])
 def smartmeter():
-    json = request.get_json()
-    print(json)
-    return jsonify(["test", 2, True])
+
+    sn = request.headers.get("X-Serialnumber")
+
+    return jsonify(db_manager.supplier_smartmeters(sn)) # TODO: Auch hier schauen, wie der rückgabewert der db aussieht. bestimmt kein dict
