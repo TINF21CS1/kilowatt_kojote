@@ -4,7 +4,7 @@ import jsonschema
 
 bp = Blueprint("supplier_backend", __name__, url_prefix="/api/supplier")
 
-uuid_schema = {
+serial_number_schema = {
     "type": "string",
     "minLength": 1
 }
@@ -12,19 +12,19 @@ uuid_schema = {
 @bp.route("/reading/history", methods=["GET"])
 def reading_history():
     
-    uuid = request.args.get("id")
+    serial_number = request.args.get("id")
 
     try:
-        jsonschema.validate(uuid, uuid_schema)
+        jsonschema.validate(serial_number, serial_number_schema)
     except jsonschema.ValidationError:
         return "", 400
 
     sim_supplier_id = "abc"
 
-    if not db_manager.check_supplier_owns_reader(sim_supplier_id, uuid):
+    if not db_manager.check_supplier_owns_reader(sim_supplier_id, serial_number):
         return "", 403
 
-    return db_manager.supplier_reading_history(uuid)    #TODO: An der stelle checken, wie der rückgabewert aussieht, es ist bestimmt kein dict in der liste, da muss ich vllt ne list/dict-comprehension machen
+    return db_manager.supplier_reading_history(serial_number)    #TODO: An der stelle checken, wie der rückgabewert aussieht, es ist bestimmt kein dict in der liste, da muss ich vllt ne list/dict-comprehension machen
 
 @bp.route("/reading/current", methods=["GET"])
 def reading_current():

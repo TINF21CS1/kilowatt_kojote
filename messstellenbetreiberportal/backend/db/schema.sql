@@ -15,10 +15,10 @@ CREATE TABLE Stromzaehler (
 );
 
 CREATE TABLE Zaehlerstaende (
-  uuid INTEGER NOT NULL,
+  serial_number INTEGER NOT NULL,
   record_timestamp INTEGER NOT NULL,
   actual_timestamp INTEGER NOT NULL,
   reading INTEGER,
-  FOREIGN KEY (uuid) REFERENCES Stromzaehler (uuid),
-  PRIMARY KEY (uuid, record_timestamp)
+  FOREIGN KEY (serial_number) REFERENCES Stromzaehler (serial_number),
+  PRIMARY KEY (serial_number, record_timestamp)
 );
