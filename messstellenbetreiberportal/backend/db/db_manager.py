@@ -91,6 +91,31 @@ def init_db():
         con.executescript(schema.read())
         con.commit()
 
+def init_test_data():
+
+    import random
+    
+    for i in range(10):
+        smartmeter_register(str(i), random.randint(0, 2))
+
+        for j in range(10):
+            smartmeter_data(str(i), timestamp := random.randint(5, 1000000000), timestamp, random.randint(1, 1000000))
+
+    
 
 if __name__ == "__main__":
+    
+    import sys
+
     init_db()
+    if sys.argv[1] == "-test":
+        init_test_data()
+
+        query = "SELECT * FROM Stromzaehler"
+
+        con = sqlite3.connect(db_path)
+        cursor = con.cursor()
+
+        res = cursor.execute(query)
+
+        print(res.fetchall())
