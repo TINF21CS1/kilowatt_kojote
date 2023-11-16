@@ -102,41 +102,6 @@ paths:
         "403":
           description: "Requested Meter that is not assigned to Supplier"
   
-  /supplier/usage/history:
-    get:
-      parameters:
-        - in: query
-          name: id
-          schema:
-            type: string
-          required: true
-          description: UUID of the smartmeter to get the reading of
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              example: '[{"timestamp": 1698934900, "reading": 4}, {"timestamp": 1698935100, "reading": 3}]'
-        "403":
-          description: "Requested Meter that is not assigned to Supplier"
-  /supplier/usage/current:
-    get:
-      parameters:
-        - in: query
-          name: id
-          schema:
-            type: string
-          required: true
-          description: UUID of the smartmeter to get the reading of
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              example: '[{"timestamp": 1698934900, "reading": 4}]'
-        "403":
-          description: "Requested Meter that is not assigned to Supplier"
-  
   /supplier/smartmeter:
     get:
       description: Get Smartmeters assigned to own Supplier
