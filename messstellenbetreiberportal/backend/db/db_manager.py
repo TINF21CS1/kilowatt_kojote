@@ -118,4 +118,4 @@ if __name__ == "__main__":
 
         res = cursor.execute(query)
 
-        print(res.fetchall())
+        print(res.fetchone())   # fetchone returns one tuple, fetchall a list of tuples

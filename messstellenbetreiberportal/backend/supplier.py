@@ -24,7 +24,10 @@ def reading_history():
     if not db_manager.check_supplier_owns_reader(sn, serial_number):
         return "", 403
 
-    return jsonify(db_manager.supplier_reading_history(serial_number))    #TODO: An der stelle checken, wie der rückgabewert aussieht, es ist bestimmt kein dict in der liste, da muss ich vllt ne list/dict-comprehension machen
+    raw_output = db_manager.supplier_reading_history(serial_number)    #TODO: An der stelle checken, wie der rückgabewert aussieht, es ist bestimmt kein dict in der liste, da muss ich vllt ne list/dict-comprehension machen
+    keys = ["timestamp", "reading"]
+
+    return jsonify([dict(zip(keys, row)) for row in raw_output])
 
 @bp.route("/reading/current", methods=["GET"])
 def reading_current():
