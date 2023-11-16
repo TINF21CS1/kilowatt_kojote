@@ -36,13 +36,16 @@ def supplier_reading_history(serial_number):
     res = cursor.execute(query, (serial_number,))
     return res.fetchall()
 
+def supplier_reading_current(serial_number):
+
+    query = "SELECT MAX(record_timestamp), reading FROM Zaehlerstaende WHERE serial_number = ?"
+
     con = sqlite3.connect(os.path.join(os.path.dirname(__file__), "database.db"))
     cursor = con.cursor()
 
-    res = cursor.execute(query, (uuid,))
-    return res.fetchall()
+    res = cursor.execute(query, (serial_number,))
+    return res.fetchone()
 
-def check_supplier_owns_reader(supplier_serial, uuid):
 def check_supplier_owns_reader(supplier_serial, serial_number):
 
     query = "SELECT * FROM Stromzaehler WHERE serial_number = ? AND supplier_serial_number = ?"

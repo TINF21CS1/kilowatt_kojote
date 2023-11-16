@@ -28,9 +28,20 @@ def reading_history():
 
 @bp.route("/reading/current", methods=["GET"])
 def reading_current():
-    #json = request.get_json()
-    #print(json)
-    return jsonify(["test", 2, True])
+    
+    serial_number = request.args.get("id")
+
+    try:
+        jsonschema.validate(serial_number, serial_number_schema)
+    except jsonschema.ValidationError:
+        return "", 400
+
+    sim_supplier_id = "abc"
+
+    if not db_manager.check_supplier_owns_reader(sim_supplier_id, serial_number):
+        return "", 403
+
+    return db_manager.supplier_reading_current(serial_number)   # TODO: Auch hier schauen, wie der rückgabewert der db aussieht. bestimmt kein dict
 
 @bp.route("/usage/history", methods=["GET"])
 def usage_history():
