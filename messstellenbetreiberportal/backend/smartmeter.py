@@ -47,9 +47,9 @@ def register():
     except jsonschema.ValidationError:
         return "", 400
 
-    sim_sn = "test"
+    sn = request.headers.get("X-Serialnumber")
 
-    db_manager.smartmeter_register(sim_sn, json["type"])
+    db_manager.smartmeter_register(sn, json["type"])
     
     return ""
 
@@ -62,11 +62,11 @@ def data():
     except jsonschema.ValidationError:
         return "", 400
 
-    sim_sn = "test"
+    sn = request.headers.get("X-Serialnumber")
 
     actual_timestamp = int(time.time())
 
     for element in json:
-        db_manager.smartmeter_data(sim_sn, element["timestamp"], actual_timestamp, element["reading"])
+        db_manager.smartmeter_data(sn, element["timestamp"], actual_timestamp, element["reading"])
 
     return ""
