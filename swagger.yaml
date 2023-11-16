@@ -25,7 +25,7 @@ paths:
               },
               "required": ["type"]
             }
-        description: "type: 0: residential, 1: industry, 2: feed-in"
+        description: "type: 0: residential, 1: industry, 2: feed_in"
         required: true
       responses:
         "200":
