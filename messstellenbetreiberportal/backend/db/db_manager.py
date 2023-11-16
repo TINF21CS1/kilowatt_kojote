@@ -108,7 +108,7 @@ if __name__ == "__main__":
     import sys
 
     init_db()
-    if sys.argv[1] == "-test":
+    if len(sys.argv) > 1 and sys.argv[1] == "-test":
         init_test_data()
 
         query = "SELECT * FROM Stromzaehler"
