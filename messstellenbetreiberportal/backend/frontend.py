@@ -1,5 +1,5 @@
 import jsonschema
-
+# Für falsche Dinge value error throwen mit nachricht was es ist
 MAX_SUPPLIER_NAME_LEN = 500
 MIN_SUPPLIER_NAME_LEN = 2
 MAX_SUPPLIER_NOTES_LEN = 5000

@@ -19,9 +19,9 @@ def reading_history():
     except jsonschema.ValidationError:
         return "", 400
 
-    sim_supplier_id = "abc"
+    sn = request.headers.get("X-Serialnumber")
 
-    if not db_manager.check_supplier_owns_reader(sim_supplier_id, serial_number):
+    if not db_manager.check_supplier_owns_reader(sn, serial_number):
         return "", 403
 
     return db_manager.supplier_reading_history(serial_number)    #TODO: An der stelle checken, wie der rückgabewert aussieht, es ist bestimmt kein dict in der liste, da muss ich vllt ne list/dict-comprehension machen
