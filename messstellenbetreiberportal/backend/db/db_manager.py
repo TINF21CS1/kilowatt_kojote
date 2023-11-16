@@ -59,14 +59,14 @@ def supplier_smartmeter(supplier_serial):
 
     return res.fetchall()
 
-def frontend_smartmeter():
+def frontend_smartmeter(supplier_serial):
 
-    query = "SELECT z.serial_number, z.counter_type, z.latitude, z.longitude, a.supplier_name FROM Stromzaehler z INNER JOIN Stromanbieter a ON z.supplier_serial_number = a.supplier_serial_number"
+    query = "SELECT z.serial_number, z.counter_type, z.latitude, z.longitude, a.supplier_name FROM Stromzaehler z INNER JOIN Stromanbieter a ON z.supplier_serial_number = a.supplier_serial_number WHERE z.supplier_serial_number = ?"
 
     con = sqlite3.connect(db_path)
     cursor = con.cursor()
 
-    res = cursor.execute(query)
+    res = cursor.execute(query, (supplier_serial,))
 
     return res.fetchall()
 
