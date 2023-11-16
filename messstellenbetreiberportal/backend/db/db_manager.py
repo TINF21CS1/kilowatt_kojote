@@ -5,14 +5,14 @@ import sqlite3
 
 db_path = os.path.join(os.path.dirname(__file__), "database.db")
 
-def smartmeter_register(serial_number, type):
+def smartmeter_register(serial_number, type, latitude, longitude):
 
-    query = "INSERT OR IGNORE INTO Stromzaehler (serial_number, counter_type) VALUES(?, ?);"
+    query = "INSERT OR IGNORE INTO Stromzaehler (serial_number, counter_type, latitude, longitude) VALUES(?, ?, ?, ?);"
 
     con = sqlite3.connect(db_path)
     cursor = con.cursor()
 
-    cursor.execute(query, (serial_number, type))
+    cursor.execute(query, (serial_number, type, latitude, longitude))
     con.commit()
     cursor.close()
 
@@ -27,7 +27,7 @@ def smartmeter_data(serial_number, timestamp, actual_timestamp, reading):
     con.commit()
     cursor.close()
 
-# Here we only take a uuid, not the supplier id, because it should be checked before if a supplier owns this uuid
+# Here we only take a serial number, not the supplier serial number, because it should be checked before if a supplier owns this serial number
 def supplier_reading_history(serial_number):
 
     query = "SELECT record_timestamp, reading FROM Zaehlerstaende WHERE serial_number = ?"
@@ -48,10 +48,9 @@ def supplier_reading_current(serial_number):
     res = cursor.execute(query, (serial_number,))
     return res.fetchone()
 
-def supplier_smartmeters(supplier_serial):
+def supplier_smartmeter(supplier_serial):
 
-    # TODO: Hier noch die Location in das select einfügen
-    query = "SELECT z.serial_number, z.counter_type, a.supplier_name FROM Stromzaehler z INNER JOIN Stromanbieter a ON z.supplier_serial_number = a.supplier_serial_number WHERE z.supplier_serial_number = ?"
+    query = "SELECT z.serial_number, z.counter_type, z.latitude, z.longitude, a.supplier_name FROM Stromzaehler z INNER JOIN Stromanbieter a ON z.supplier_serial_number = a.supplier_serial_number WHERE z.supplier_serial_number = ?"
 
     con = sqlite3.connect(db_path)
     cursor = con.cursor()
@@ -62,8 +61,7 @@ def supplier_smartmeters(supplier_serial):
 
 def frontend_smartmeter():
 
-    # TODO: Hier noch die Location in das select einfügen
-    query = "SELECT z.serial_number, z.counter_type, a.supplier_name FROM Stromzaehler z INNER JOIN Stromanbieter a ON z.supplier_serial_number = a.supplier_serial_number"
+    query = "SELECT z.serial_number, z.counter_type, z.latitude, z.longitude, a.supplier_name FROM Stromzaehler z INNER JOIN Stromanbieter a ON z.supplier_serial_number = a.supplier_serial_number"
 
     con = sqlite3.connect(db_path)
     cursor = con.cursor()
