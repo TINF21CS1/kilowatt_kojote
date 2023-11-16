@@ -48,6 +48,7 @@ def frontend_smartmeter_reading() -> list(dict):
     return
 
 def frontend_smartmeter_revoke(uuid: str):
+    # Here we need to contact endpoint of CA
     return
 
 def frontend_smartmeter_supplier() -> dict:
@@ -60,6 +61,7 @@ def frontend_supplier_smartmeter() -> list(dict):
     return
 
 def frontend_supplier_add(json: dict) -> dict:
+    # Here we also need to contact the CA
     return
 
 def frontend_supplier_assign(json: dict):
