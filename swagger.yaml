@@ -20,12 +20,12 @@ paths:
                   "description": "Type of the smartmeter",
                   "type": "integer",
                   "minimum": 0,
-                  "maximum": 2
+                  "maximum": 3
                 }
               },
               "required": ["type"]
             }
-        description: "type: 0: residential, 1: industry, 2: feed_in"
+        description: "type: 0: residential, 1: industry, 2: feed_in, 3: residential_feed_in"
         required: true
       responses:
         "200":

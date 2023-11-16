@@ -12,7 +12,7 @@ smartmeter_register_schema = {
         "description": "Type of the smartmeter",
         "type": "integer",
         "minimum": 0,
-        "maximum": 2
+        "maximum": 3
         }
     },
     "required": ["type"]
