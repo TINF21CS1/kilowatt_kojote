@@ -44,7 +44,10 @@ def reading_current():
     if not db_manager.check_supplier_owns_reader(sn, serial_number):
         return "", 403
 
-    return jsonify(db_manager.supplier_reading_current(serial_number))   # TODO: Auch hier schauen, wie der rückgabewert der db aussieht. bestimmt kein dict
+    raw_output = db_manager.supplier_reading_current(serial_number)
+    keys = ["timestamp", "reading"]
+
+    return jsonify(dict(zip(keys, raw_output)))   # TODO: Auch hier schauen, wie der rückgabewert der db aussieht. bestimmt kein dict
 
 @bp.route("/smartmeter", methods=["GET"])
 def smartmeter():
