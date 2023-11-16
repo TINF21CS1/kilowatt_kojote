@@ -26,9 +26,15 @@ def smartmeter_data(serial_number, timestamp, actual_timestamp, reading):
     cursor.close()
 
 # Here we only take a uuid, not the supplier id, because it should be checked before if a supplier owns this uuid
-def supplier_reading_history(uuid):
+def supplier_reading_history(serial_number):
 
     query = "SELECT record_timestamp, reading FROM Zaehlerstaende WHERE serial_number = ?"
+
+    con = sqlite3.connect(os.path.join(os.path.dirname(__file__), "database.db"))
+    cursor = con.cursor()
+
+    res = cursor.execute(query, (serial_number,))
+    return res.fetchall()
 
     con = sqlite3.connect(os.path.join(os.path.dirname(__file__), "database.db"))
     cursor = con.cursor()
