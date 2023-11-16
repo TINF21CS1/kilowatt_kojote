@@ -98,7 +98,7 @@ paths:
           description: OK
           content:
             application/json:
-              example: '[{"timestamp": 1698934659, "reading": 123456}]'
+              example: '{"timestamp": 1698934659, "reading": 123456}'
         "403":
           description: "Requested Meter that is not assigned to Supplier"
   
