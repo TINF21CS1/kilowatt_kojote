@@ -70,6 +70,19 @@ def frontend_smartmeter(supplier_serial):
 
     return res.fetchall()
 
+# Difference to supplier_reading_history: This also gets the actual_timestamp
+def frontend_smartmeter_getAllMeterData(serial_number):
+
+    query = "SELECT record_timestamp, actual_timestamp, reading FROM Zaehlerstaende WHERE serial_number = ?"
+
+    con = sqlite3.connect(db_path)
+    cursor = con.cursor()
+
+    res = cursor.execute(query, (serial_number,))
+
+    return res.fetchall()
+
+
 def check_supplier_owns_reader(supplier_serial, serial_number):
 
     query = "SELECT * FROM Stromzaehler WHERE serial_number = ? AND supplier_serial_number = ?"

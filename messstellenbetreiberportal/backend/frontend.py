@@ -46,13 +46,21 @@ def frontend_smartmeter() -> list(dict):
     
     output = []
 
-    all_readers = db_manager.frontend_smartmeter()
+    all_readers_raw = db_manager.frontend_smartmeter()
+    keys = ["uuid", "type", "latitude", "longitude", "supplier"]
+
+    all_readers = [dict(zip(keys, reader)) for reader in all_readers_raw]
+
+    keys = ["timestamp", "actual_timestamp", "reading"]
 
     for reader in all_readers:
         # query all readings of that reader and append everything to the output list together with the other data just like defined
-        pass
 
-    return output
+        raw_data = db_manager.frontend_smartmeter_getAllMeterData(reader["uuid"])
+
+        reader["data"] = [dict(zip(keys, row)) for row in raw_data]
+
+    return all_readers
 
 
 def frontend_smartmeter_reading() -> list(dict):
