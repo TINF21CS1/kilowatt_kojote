@@ -1,5 +1,6 @@
 from .availability import get_duration_downtime, INTERVAL
-from datetime import datetime
+from datetime import datetime, timedelta
+import logging
 
 def dowtime_error(smartmeter:dict, interval:int = INTERVAL) -> list:
     """Calculates the errors of a smartmeter.
@@ -16,11 +17,11 @@ def dowtime_error(smartmeter:dict, interval:int = INTERVAL) -> list:
     downtime = get_duration_downtime(last_reading)
 
     # Check if the last reading is older than the interval
-    if downtime > interval:
+    if abs(downtime) > interval:
         return [{
             'uuid': smartmeter['uuid'],
             'timestamp': datetime.utcfromtimestamp(last_reading['timestamp']).strftime('%Y-%m-%d %H:%M:%S'),
-            'message': f'Zähler sendet seit {datetime.timedelta(seconds=downtime)} keine Daten!'
+            'message': f'Zähler sendet seit {timedelta(seconds=downtime)} keine Daten!'
         }]
     else:
         return []
