@@ -14,7 +14,7 @@ def generate_readings(n):
         }
 
 def generate_list_of_readings(n):
-    return [reading for reading in generate_readings(n)]
+    return sorted([reading for reading in generate_readings(n)], key=lambda k: k['timestamp'], reverse=True)
 
 
 def generate_smartmeters(n):
