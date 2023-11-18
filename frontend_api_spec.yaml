@@ -100,13 +100,30 @@ paths:
         content:
           application/json:
             example: '{"name": "Naturstrom", "notes": "voll öko und so"}'
+            schema:  {
+              "type": "object",
+              "properties": {
+                  "name": {
+                      "description": "Name of the supplier",
+                      "type": "string",
+                      "minLength": MIN_SUPPLIER_NAME_LEN,
+                      "maxLength": MAX_SUPPLIER_NAME_LEN
+                  },
+                  "notes": {
+                      "description": "Additional notes regarding the supplier",
+                      "type": "string",
+                      "maxLength": MAX_SUPPLIER_NOTES_LEN
+                  }
+              },
+              "required": ["name", "notes"]
+            }
         required: true
       responses:
         "200":
           description: OK
           content:
             application/json:
-              example: '{"id": 2, "name": "Naturstrom", "notes": "voll öko und so"}'
+              example: '{"certificate": "some format... base64?"}'
       summary: "Erstellt neuen Stromanbieter"
   
   frontend_supplier_assign:
@@ -115,6 +132,23 @@ paths:
         content:
           application/json:
             example: '{"supplier": "EnBW", "smartmeter": "a3b639f1-1ea2-4eda-97d0-4ddd68b4514a"}'
+            schema:  {
+              "type": "object",
+              "properties": {
+                  "supplier": {
+                      "description": "Name of the supplier to which the smartmeter should be added",
+                      "type": "string",
+                      "minLength": MIN_SUPPLIER_NAME_LEN,
+                      "maxLength": MAX_SUPPLIER_NAME_LEN
+                  },
+                  "smartmeter": {
+                      "description": "The serial number of the smartmeter that should be added to the supplier",
+                      "type": "string"
+                  }
+              },
+              "required": ["supplier", "smartmeter"]
+
+            }
         required: true
       responses:
         "200":

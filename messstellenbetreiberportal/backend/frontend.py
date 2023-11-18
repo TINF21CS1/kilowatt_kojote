@@ -24,7 +24,6 @@ frontend_supplier_add_schema = {
 }
 
 frontend_supplier_assign_schema = {
-
     "type": "object",
     "properties": {
         "supplier": {
@@ -121,8 +120,19 @@ def frontend_supplier_smartmeter(uuid: str) -> list:
     return [dict(zip(keys, row)) for row in raw_data]
 
 def frontend_supplier_add(json: dict) -> dict:
-    # Here we also need to contact the CA
-    return
+
+    try:
+        jsonschema.validate(json, frontend_supplier_add_schema)
+    except jsonschema.ValidationError:
+        raise JSONValidationError("Validation of data failed")
+
+    # Here we also need to contact the CA to get the certificate returned
+    certificate = None
+    supplier_serial = None
+
+    db_manager.frontend_supplier_add(supplier_serial, json["name"], json["notes"])
+
+    return certificate
 
 def frontend_supplier_assign(json: dict):
     return

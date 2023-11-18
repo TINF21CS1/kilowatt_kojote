@@ -124,6 +124,18 @@ def frontend_supplier_smartmeter(supplier_serial):
 
     return res.fetchall()
 
+# Insert a new supplier. The serial has to be generated beforehand
+def frontend_supplier_add(supplier_serial, name, notes):
+
+    query = "INSERT INTO Stromanbieter (supplier_serial, supplier_name, notes) VALUES(?, ?, ?);"
+
+    con = sqlite3.connect(db_path)
+    cursor = con.cursor()
+
+    cursor.execute(query, (supplier_serial, name, notes))
+    con.commit()
+    cursor.close()
+
 # Check if a supplier owns a reader
 def check_supplier_owns_reader(supplier_serial, serial_number):
 
