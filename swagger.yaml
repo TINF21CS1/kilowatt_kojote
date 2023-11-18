@@ -85,8 +85,10 @@ paths:
     get:
       parameters:
         - in: query
-          schema:
-            type: string
+          schema: {
+            "type": "string",
+            "minLength": 1
+          }
           name: id
           required: true
           description: UUID of the smartmeter to get the reading of
@@ -102,8 +104,10 @@ paths:
     get:
       parameters:
         - in: query
-          schema:
-            type: string
+          schema: {
+            "type": "string",
+            "minLength": 1
+          }
           name: id
           required: true
           description: UUID of the smartmeter to get the reading of
