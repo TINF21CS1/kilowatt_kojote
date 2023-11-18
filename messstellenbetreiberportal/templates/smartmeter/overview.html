@@ -12,9 +12,8 @@
         <th>Typ</th>
         <th>Standort</th>
         <th>Stromanbieter</th>
-        <th>Zählerstand</th>
-        <th>Verbrauch</th>
-        <th>Ø Verbrauch</th>
+        <th>Letzter Zählerstand</th>
+        <th>Letzter Verbrauch</th>
       </tr>
     </thead>
     <tbody>
@@ -24,9 +23,8 @@
             <td>{{ smartmeter.type }}</td>
             <td>{{ smartmeter.location }}</td>
             <td>{{ smartmeter.supplier }}</td>
-            <td>{{ smartmeter.reading }}</td>
-            <td>{{ smartmeter.usage }}</td>
-            <td>{{ smartmeter.avg_usage }}</td>
+            <td>{{ smartmeter.data[0]["reading"] }} kWh</td>
+            <td>{{ smartmeter.data[0]["usage"] }} W</td>
         </tr>
       {% endfor %}
     </tbody>
