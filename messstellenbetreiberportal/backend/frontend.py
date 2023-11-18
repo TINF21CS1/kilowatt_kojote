@@ -42,7 +42,7 @@ frontend_supplier_assign_schema = {
 
 }
 
-def frontend_smartmeter() -> list(dict):
+def frontend_smartmeter() -> list:
     
     output = []
 
@@ -63,7 +63,7 @@ def frontend_smartmeter() -> list(dict):
     return all_readers
 
 
-def frontend_smartmeter_reading() -> list(dict):
+def frontend_smartmeter_reading() -> list:
     return
 
 def frontend_smartmeter_revoke(uuid: str):
@@ -73,10 +73,10 @@ def frontend_smartmeter_revoke(uuid: str):
 def frontend_smartmeter_supplier() -> dict:
     return
 
-def frontend_supplier() -> list(dict):
+def frontend_supplier() -> list:
     return
 
-def frontend_supplier_smartmeter() -> list(dict):
+def frontend_supplier_smartmeter() -> list:
     return
 
 def frontend_supplier_add(json: dict) -> dict:
