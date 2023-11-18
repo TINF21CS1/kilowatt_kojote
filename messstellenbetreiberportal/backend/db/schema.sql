@@ -10,6 +10,8 @@ CREATE TABLE Stromanbieter (
 CREATE TABLE Stromzaehler (
   serial_number TEXT PRIMARY KEY,
   counter_type TINYINT NOT NULL,
+  latitude REAL NOT NULL,
+  longitude REAL NOT NULL,
   supplier_serial_number INTEGER,
   FOREIGN KEY (supplier_serial_number) REFERENCES Stromanbieter (supplier_serial_number)
 );

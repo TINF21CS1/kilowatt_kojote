@@ -20,12 +20,26 @@ paths:
                   "description": "Type of the smartmeter",
                   "type": "integer",
                   "minimum": 0,
-                  "maximum": 2
+                  "maximum": 3
+                },
+                "latitude": {
+                  "description": "Latitude of the smartmeter",
+                  "type": "number",
+                  "minimum": -90,
+                  "maximum": 90,
+                  "multipleOf": 0.00001
+                },
+                "longitude": {
+                  "description": "Longitude of the smartmeter",
+                  "type": "number",
+                  "minimum": -180,
+                  "maximum": 180,
+                  "multipleOf": 0.00001
                 }
               },
               "required": ["type"]
             }
-        description: "type: 0: residential, 1: industry, 2: feed-in"
+        description: "type: 0: residential, 1: industry, 2: feed_in, 3: residential_feed_in"
         required: true
       responses:
         "200":
@@ -102,49 +116,12 @@ paths:
         "403":
           description: "Requested Meter that is not assigned to Supplier"
   
-  /supplier/usage/history:
-    get:
-      parameters:
-        - in: query
-          name: id
-          schema:
-            type: string
-          required: true
-          description: UUID of the smartmeter to get the reading of
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              example: '[{"timestamp": 1698934900, "reading": 4}, {"timestamp": 1698935100, "reading": 3}]'
-        "403":
-          description: "Requested Meter that is not assigned to Supplier"
-  /supplier/usage/current:
-    get:
-      parameters:
-        - in: query
-          name: id
-          schema:
-            type: string
-          required: true
-          description: UUID of the smartmeter to get the reading of
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              example: '[{"timestamp": 1698934900, "reading": 4}]'
-        "403":
-          description: "Requested Meter that is not assigned to Supplier"
-  
   /supplier/smartmeter:
     get:
       description: Get Smartmeters assigned to own Supplier
       responses:
         "200":
-          description: OK, Location coordinates in decimal format and in range 47.754 - 53.392 (latitude), 07.071 - 14.256 (longitude)
+          description: OK
           content:
             application/json:
-              example: '[{"uuid": "a3b639f1-1ea2-4eda-97d0-4ddd68b4514a", "type": 0, "location": "49.29131790753691, 8.699754540475123", "supplier": "EnBW"}]'
-        "403":
-          description: "Requested Meter that is not assigned to Supplier"
+              example: '[{"uuid": "a3b639f1-1ea2-4eda-97d0-4ddd68b4514a", "type": 0, "latitude": 49.29131, "longitude": 8.69975, "supplier": "EnBW"}]'

@@ -12,7 +12,21 @@ smartmeter_register_schema = {
         "description": "Type of the smartmeter",
         "type": "integer",
         "minimum": 0,
-        "maximum": 2
+        "maximum": 3
+        },
+        "latitude": {
+            "description": "Latitude of the smartmeter",
+            "type": "number",
+            "minimum": -90,
+            "maximum": 90,
+            "multipleOf": 0.00001
+        },
+        "longitude": {
+            "description": "Longitude of the smartmeter",
+            "type": "number",
+            "minimum": -180,
+            "maximum": 180,
+            "multipleOf": 0.00001
         }
     },
     "required": ["type"]
@@ -49,7 +63,7 @@ def register():
 
     sn = request.headers.get("X-Serialnumber")
 
-    db_manager.smartmeter_register(sn, json["type"])
+    db_manager.smartmeter_register(sn, json["type"], json["latitude"], json["longitude"])
     
     return ""
 
