@@ -26,18 +26,17 @@ frontend_supplier_add_schema = {
 frontend_supplier_assign_schema = {
     "type": "object",
     "properties": {
-        "supplier": {
-            "description": "Name of the supplier to which the smartmeter should be added",
+        "uuid": {
             "type": "string",
-            "minLength": MIN_SUPPLIER_NAME_LEN,
-            "maxLength": MAX_SUPPLIER_NAME_LEN
+            "minLength": 1,
         },
         "smartmeter": {
             "description": "The serial number of the smartmeter that should be added to the supplier",
-            "type": "string"
+            "type": "string",
+            "minLength": 1
         }
     },
-    "required": ["supplier", "smartmeter"]
+    "required": ["uuid", "smartmeter"]
 
 }
 
@@ -135,7 +134,14 @@ def frontend_supplier_add(json: dict) -> dict:
     return certificate
 
 def frontend_supplier_assign(json: dict):
-    return
+    
+    try:
+        jsonschema.validate(json, frontend_supplier_assign_schema)
+    except jsonschema.ValidationError:
+        raise JSONValidationError("Validation of data failed")
+    
+    db_manager.frontend_supplier_assign(json["uuid"], json["smartmeter"])
+
 
 class JSONValidationError(Exception):
     # Error to be thrown when JSON Schema validation fails
