@@ -8,7 +8,7 @@ def get_duration_downtime(last_reading:dict, current_time = int(time.time())) ->
     """Calculates the duration of a downtime from a reading.
     """
 
-    downtime = last_reading['timestamp'] - current_time
+    downtime = current_time - last_reading['timestamp']
 
     return downtime
 
