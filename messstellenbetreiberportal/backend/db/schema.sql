@@ -4,7 +4,8 @@ DROP TABLE IF EXISTS Zaehlerstaende;
 
 CREATE TABLE Stromanbieter (
   supplier_serial_number TEXT PRIMARY KEY,
-  supplier_name TEXT UNIQUE NOT NULL
+  supplier_name TEXT UNIQUE NOT NULL,
+  notes TEXT
 );
 
 CREATE TABLE Stromzaehler (

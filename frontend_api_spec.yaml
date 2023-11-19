@@ -1,0 +1,155 @@
+openapi: "3.0.0"
+info:
+  version: "0.0.1"
+  title: "Kilowatt Kojote Frontend API"
+
+paths:
+  frontend_smartmeter:
+    get:
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              example: '[{"uuid": "a3b639f1-1ea2-4eda-97d0-4ddd68b4514a", "type": 0, "latitude": 49.53691, "longitude": 8.75123, "supplier": "EnBW", "data": [{"timestamp": 1698934659, "actual_timestamp": 1698934900, "reading": 123456},{"timestamp": 1698934900, "actual_timestamp": 1698934900, "reading": 123457}]}]'
+  
+  frontend_smartmeter_reading:
+    get:
+      parameters:
+        - in: query
+          schema: {
+            "type": "string",
+            "minLength": 1,
+          }
+          name: uuid
+          required: true
+          description: UUID of the smartmeter to get the reading of
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              example: '[{"timestamp": 1698934659, "actual_timestamp": 1698934900, "reading": 123456},{"timestamp": 1698934900, "actual_timestamp": 1698934900, "reading": 123457}]'
+              
+  frontend_smartmeter_revoke:
+    post:
+      parameters:
+        - in: query
+          name: uuid
+          schema: {
+            "type": "string",
+            "minLength": 1,
+          }
+          required: true
+          description: UUID of the smartmeter to get the reading of
+      description: Revoke Certificate of a smartmeter
+      responses:
+        "200":
+          description: OK
+  
+  frontend_smartmeter_supplier:
+    get:
+      parameters:
+        - in: query
+          name: uuid
+          schema: {
+            "type": "string",
+            "minLength": 1,
+          }
+          required: true
+          description: UUID of the smartmeter to get the reading of
+      description: Get Supplier of a specific smartmeter
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              example: '{"supplier": "EnBW"}'
+
+  frontend_supplier:
+    get:
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              example: '[{"id": 1, "supplier": "EnBW"}]'
+  
+  frontend_supplier_smartmeter:
+    get:
+      parameters:
+        - in: query
+          name: uuid
+          schema: {
+            "type": "string",
+            "minLength": 1,
+          }
+          required: true
+          description: ID of the supplier
+      description: Get Smartmeters of a specific supplier
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              example: '[{"uuid": "a3b639f1-1ea2-4eda-97d0-4ddd68b4514a", "type": 0, "latitude": 49.53691, "longitude": 8.75123}]'
+  
+  frontend_supplier_add:
+    post:
+      requestBody:
+        content:
+          application/json:
+            example: '{"name": "Naturstrom", "notes": "voll öko und so"}'
+            schema:  {
+              "type": "object",
+              "properties": {
+                  "name": {
+                      "description": "Name of the supplier",
+                      "type": "string",
+                      "minLength": MIN_SUPPLIER_NAME_LEN,
+                      "maxLength": MAX_SUPPLIER_NAME_LEN
+                  },
+                  "notes": {
+                      "description": "Additional notes regarding the supplier",
+                      "type": "string",
+                      "maxLength": MAX_SUPPLIER_NOTES_LEN
+                  }
+              },
+              "required": ["name", "notes"]
+            }
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              example: '{"certificate": "some format... base64?"}'
+      summary: "Erstellt neuen Stromanbieter"
+  
+  frontend_supplier_assign:
+    post:
+      requestBody:
+        content:
+          application/json:
+            example: '{"uuid": "dd26cc97-3ed4-4e2d-88f9-e20d68d7bf01", "smartmeter": "a3b639f1-1ea2-4eda-97d0-4ddd68b4514a"}'
+            schema:  {
+              "type": "object",
+              "properties": {
+                  "uuid": {
+                      "type": "string",
+                      "minLength": 1,
+                  },
+                  "smartmeter": {
+                      "description": "The serial number of the smartmeter that should be added to the supplier",
+                      "type": "string",
+                      "minLength": 1
+                  }
+              },
+              "required": ["uuid", "smartmeter"]
+
+            }
+        required: true
+      responses:
+        "200":
+          description: OK
+      summary: "Ein bestimmtes smartmeter einem supplier zuordnen"

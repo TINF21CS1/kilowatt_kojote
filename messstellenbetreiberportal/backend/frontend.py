@@ -24,27 +24,28 @@ frontend_supplier_add_schema = {
 }
 
 frontend_supplier_assign_schema = {
-
     "type": "object",
     "properties": {
-        "supplier": {
-            "description": "Name of the supplier to which the smartmeter should be added",
+        "uuid": {
             "type": "string",
-            "minLength": MIN_SUPPLIER_NAME_LEN,
-            "maxLength": MAX_SUPPLIER_NAME_LEN
+            "minLength": 1,
         },
         "smartmeter": {
             "description": "The serial number of the smartmeter that should be added to the supplier",
-            "type": "string"
+            "type": "string",
+            "minLength": 1
         }
     },
-    "required": ["supplier", "smartmeter"]
+    "required": ["uuid", "smartmeter"]
 
 }
 
-def frontend_smartmeter() -> list(dict):
-    
-    output = []
+uuid_schema = {
+    "type": "string",
+    "minLength": 1,
+}
+
+def frontend_smartmeter() -> list:
 
     all_readers_raw = db_manager.frontend_smartmeter()
     keys = ["uuid", "type", "latitude", "longitude", "supplier"]
@@ -63,25 +64,87 @@ def frontend_smartmeter() -> list(dict):
     return all_readers
 
 
-def frontend_smartmeter_reading() -> list(dict):
-    return
+def frontend_smartmeter_reading(uuid: str) -> list:
+    
+    try:
+        jsonschema.validate(uuid, uuid_schema)
+    except jsonschema.ValidationError:
+        raise JSONValidationError("UUID has an invalid format")
+
+    raw_output = db_manager.frontend_smartmeter_getAllMeterData(uuid)
+    keys = ["timestamp", "actual_timestamp", "reading"]
+
+    return [dict(zip(keys, row)) for row in raw_output]
+    
 
 def frontend_smartmeter_revoke(uuid: str):
+
+    try:
+        jsonschema.validate(uuid, uuid_schema)
+    except jsonschema.ValidationError:
+        raise JSONValidationError("UUID has an invalid format")
+
     # Here we need to contact endpoint of CA
-    return
 
-def frontend_smartmeter_supplier() -> dict:
-    return
+def frontend_smartmeter_supplier(uuid: str) -> dict:
+    
+    try:
+        jsonschema.validate(uuid, uuid_schema)
+    except jsonschema.ValidationError:
+        raise JSONValidationError("UUID has an invalid format")
+    
+    raw_data = db_manager.frontend_smartmeter_supplier(uuid)
+    keys = ["supplier"]
 
-def frontend_supplier() -> list(dict):
-    return
+    return dict(zip(keys, raw_data))
 
-def frontend_supplier_smartmeter() -> list(dict):
-    return
+def frontend_supplier() -> list:
+    
+    raw_data = db_manager.frontend_supplier()
+    keys = ["id", "supplier"]
+
+    return [dict(zip(keys, row)) for row in raw_data]
+
+
+def frontend_supplier_smartmeter(uuid: str) -> list:
+
+    try:
+        jsonschema.validate(uuid, uuid_schema)
+    except jsonschema.ValidationError:
+        raise JSONValidationError("UUID has an invalid format")
+    
+    raw_data = db_manager.frontend_supplier_smartmeter(uuid)
+    keys = ["uuid", "type", "latitude", "longitude"]
+
+    return [dict(zip(keys, row)) for row in raw_data]
 
 def frontend_supplier_add(json: dict) -> dict:
-    # Here we also need to contact the CA
-    return
+
+    try:
+        jsonschema.validate(json, frontend_supplier_add_schema)
+    except jsonschema.ValidationError:
+        raise JSONValidationError("Validation of data failed")
+
+    # Here we also need to contact the CA to get the certificate returned
+    certificate = None
+    supplier_serial = None
+
+    db_manager.frontend_supplier_add(supplier_serial, json["name"], json["notes"])
+
+    return certificate
 
 def frontend_supplier_assign(json: dict):
-    return
+    
+    try:
+        jsonschema.validate(json, frontend_supplier_assign_schema)
+    except jsonschema.ValidationError:
+        raise JSONValidationError("Validation of data failed")
+    
+    db_manager.frontend_supplier_assign(json["uuid"], json["smartmeter"])
+
+
+class JSONValidationError(Exception):
+    # Error to be thrown when JSON Schema validation fails
+    def __init__(self, message) -> None:
+        self.message = message
+        super().__init__(self.message)
