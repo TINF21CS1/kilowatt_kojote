@@ -13,7 +13,7 @@ def dowtime_error(smartmeter:dict, interval:int = INTERVAL) -> list:
     """
 
     # Get the last reading
-    last_reading = smartmeter['data'][-1]
+    last_reading = smartmeter['data'][-1] if len(smartmeter['data']) > 0 else {"timestamp": 0}
     downtime = get_duration_downtime(last_reading)
 
     # Check if the last reading is older than the interval

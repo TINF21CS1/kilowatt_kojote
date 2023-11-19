@@ -2,6 +2,7 @@ from flask import (
     Blueprint, redirect, render_template, request, session, url_for
 )
 import logging
+from ..backend.frontend import frontend_supplier_add, frontend_supplier_assign, frontend_supplier, frontend_smartmeter
 
 logger = logging.getLogger(__name__)
 
@@ -15,11 +16,10 @@ def supplier():
 def add():
     if request.method == 'POST':
         name = request.form['name']
-        street = request.form['notes']
+        notes = request.form['notes']
         
         try: 
-            # TODO: Add code to add supplier to database
-            pass
+            frontend_supplier_add({"name": name, "notes": notes})
         except ValueError as e:
             logger.exception(e)
             return render_template('error.html', errors=str(e))
@@ -31,12 +31,11 @@ def add():
 @bp.route('/assign', methods=['GET', 'POST'])
 def assign():
     if request.method == 'POST':
-        smartmeter = request.form['smartmeter']
-        supplier = request.form['supplier']
+        smartmeter_uuid = request.form['smartmeter']
+        supplier_uuid = request.form['supplier']
         
         try:
-            # TODO: Add code to add assignment to database
-            pass
+            frontend_supplier_assign({"uuid":supplier_uuid, "smartmeter":smartmeter_uuid})
         except ValueError as e:
             logger.exception(e)
             return render_template('error.html', errors=str(e))
@@ -45,8 +44,8 @@ def assign():
     
     else:
         try:
-            # TODO: Add code to get smartmeters and suppliers from database
-            pass
+            # smartmeters = frontend_smartmeter() # TODO: Replace with real data
+            suppliers = frontend_supplier()
         except ValueError as e:
             logger.exception(e)
             return render_template('error.html', errors=str(e))
@@ -79,21 +78,6 @@ def assign():
                 "usage": "1234567890",
                 "avg_usage": "1234567890"
             },
-        ]
-
-        suppliers = [
-            {
-                "uuid": "123456789012sgf34567890123456789012",
-                "name": "Stadtwerke",
-            },
-            {
-                "uuid": "23452345",
-                "name": "LOLOL",
-            },
-            {
-                "uuid": "qwerqwerqwer",
-                "name": "LOLOL",
-            }
         ]
 
         return render_template(

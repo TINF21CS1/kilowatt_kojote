@@ -23,7 +23,7 @@ def get_uptime(readings:list, interval:int = INTERVAL, timeframe:int = TIMEFRAME
     """
 
     if len(readings) == 0:
-        return [1]
+        return {current_time: 0}
 
     # Iterate through the whole timeframe in intervals of 15 minutes and calculate the uptime
     uptime = OrderedDict()
@@ -53,7 +53,7 @@ def uptime_smartmeters(smartmeter:list, interval:int = INTERVAL, timeframe:int =
 
     # Get average uptime for each interval
     average_uptime = OrderedDict()
-    for i in range(current_time - timeframe, current_time, interval):
+    for i in uptime[smartmeter[0]['uuid']].keys():
         average_uptime[i] = sum(uptime[meter['uuid']][i] for meter in smartmeter) / len(smartmeter)
 
     return average_uptime

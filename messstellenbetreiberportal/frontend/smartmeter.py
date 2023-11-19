@@ -6,7 +6,7 @@ from datetime import datetime
 from .testdata import get_smartmeter_test_list
 from .availability import uptime_smartmeters
 from .errors import errors_smartmeter
-#from ..backend.frontend import frontend_smartmeter_revoke, frontend_smartmeter, frontend_smartmeter_reading
+from ..backend.frontend import frontend_smartmeter_revoke, frontend_smartmeter, frontend_smartmeter_reading
 import time
 import logging
 
@@ -24,9 +24,7 @@ def smartmeter():
 def overview():
     if request.method == 'POST' and "id" in request.form:
         try:
-            #frontend_smartmeter_revoke(request.form["id"])
-            # TODO: Insert Revoke Functionality
-            pass
+            frontend_smartmeter_revoke(request.form["id"])
         except ValueError as e:
             logger.exception(e)
             return render_template('error.html', errors=str(e))
@@ -45,16 +43,17 @@ def overview():
 def detail():
     # Create list of smartmeters
     try:
-        smartmeter = get_smartmeter_test_list(1) # TODO: Replace with real data
-        #smartmeter = {
-        #    "uuid" : request.args.get("id"),
-        #    "data" : frontend_smartmeter_reading(request.args.get("id"))
-        #}
+        smartmeter = [{
+            "uuid" : request.args.get("id"),
+            "data" : frontend_smartmeter_reading(request.args.get("id"))
+        }]
     except ValueError as e:
         logger.exception(e)
         return render_template('error.html', errors=str(e))
 
     smartmeter = smartermeter_usage(smartmeter)
+
+    print(smartmeter)
 
     # Get uptime for smartmeter
     current_time = int(time.time())
@@ -85,5 +84,5 @@ def smartermeter_usage(smartmeters:list) -> list:
             # Check if previous list entry exists
             if len(smartmeter["data"]) > i+1:
                 # Calculate usage
-                data["usage"] = round((data["reading"] - smartmeter["data"][i+1]["reading"])*1000 / (data["timestamp"] - smartmeter["data"][i+1]["timestamp"]), 2)
+                data["usage"] = round((data["reading"] - smartmeter["data"][i+1]["reading"])*1000 / (data["timestamp"] - smartmeter["data"][i+1]["timestamp"]), 2) if data["timestamp"] - smartmeter["data"][i+1]["timestamp"] != 0 else "FEHLER"
     return smartmeters
