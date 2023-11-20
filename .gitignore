@@ -14,3 +14,4 @@ venv
 *.ps1
 
 smartmeter/*test.py
+test_hauke*.py

@@ -11,3 +11,4 @@ def main(seed):
     random.seed(seed)
     meter = random.choices(list(meter_type), METER_OCCURENCES, k=1)[0](seed)
     meter.run()
+    print(meter.string())
