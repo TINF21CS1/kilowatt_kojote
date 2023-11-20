@@ -106,7 +106,7 @@ def frontend_smartmeter_supplier(uuid: str) -> dict:
 def frontend_supplier() -> list:
     
     raw_data = db_manager.frontend_supplier()
-    keys = ["id", "supplier"]
+    keys = ["uuid", "supplier", "notes"]
 
     return [dict(zip(keys, row)) for row in raw_data]
 
@@ -133,6 +133,7 @@ def frontend_supplier_add(json: dict) -> dict:
     # Here we also need to contact the CA to get the certificate returned
     certificate = None
     supplier_serial = None
+    response = 
 
     db_manager.frontend_supplier_add(supplier_serial, json["name"], json["notes"])
 
