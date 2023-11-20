@@ -133,7 +133,7 @@ def frontend_supplier_add(json: dict) -> dict:
     # Here we also need to contact the CA to get the certificate returned
     certificate = None
     supplier_serial = None
-    response = 
+    #response = 
 
     db_manager.frontend_supplier_add(supplier_serial, json["name"], json["notes"])
 
