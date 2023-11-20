@@ -1,9 +1,12 @@
 import jsonschema
+import requests
 from .db import db_manager
 # Für falsche Dinge value error throwen mit nachricht was es ist
 MAX_SUPPLIER_NAME_LEN = 500
 MIN_SUPPLIER_NAME_LEN = 2
 MAX_SUPPLIER_NOTES_LEN = 5000
+
+CA_DOMAIN_NAME = "ca.kilowattkojote.de"
 
 frontend_supplier_add_schema = {
     "type": "object",
@@ -85,6 +88,8 @@ def frontend_smartmeter_revoke(uuid: str):
         raise JSONValidationError("UUID has an invalid format")
 
     # Here we need to contact endpoint of CA
+    response = requests.get(CA_DOMAIN_NAME + "/revoke?serial=" + uuid)
+
 
 def frontend_smartmeter_supplier(uuid: str) -> dict:
     
