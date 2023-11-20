@@ -123,7 +123,7 @@ paths:
           description: OK
           content:
             application/json:
-              example: '{"certificate": "some format... base64?"}'
+              example: '{"certificate": "base64-encoded pfx file"}'
       summary: "Erstellt neuen Stromanbieter"
   
   frontend_supplier_assign:

@@ -141,7 +141,7 @@ def frontend_supplier_add(json: dict) -> dict:
 
     db_manager.frontend_supplier_add(supplier_serial, json["name"], json["notes"])
 
-    return certificate
+    return {"certificate": certificate}
 
 def frontend_supplier_assign(json: dict):
     
