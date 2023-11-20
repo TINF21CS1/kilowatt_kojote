@@ -1,3 +1,4 @@
 flask==3.0.0
 waitress==2.1.2
-jsonschema==4.19.2 
+jsonschema==4.19.2
+requests
