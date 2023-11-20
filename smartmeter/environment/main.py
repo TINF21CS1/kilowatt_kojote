@@ -1,11 +1,13 @@
-from threading import Thread, Lock
+from threading import Thread
 import random
 import time
+import platform
+import datetime
 
 from .simulation import simulation
 from .api import api as env_api
-from smartmeter.util.nd_list import create_nd_list
-from smartmeter.constants import MAX_WIDTH, MAX_HEIGHT
+from .util.nd_list import create_nd_list
+from .constants import MAX_WIDTH, MAX_HEIGHT
 
 class shared_environment_wrapper():
     def __init__(self, seed):
@@ -15,7 +17,7 @@ class shared_environment_wrapper():
         self.wind = empty_matrix
         self.sun = empty_matrix 
         self.rain = empty_matrix
-        self.timestamp = random.randint(946681200000, int(time.time())) #start is 01.01.2000
+        self.timestamp = datetime.fromtimestamp(random.randint(946681200000, int(time.time()))) #start is 01.01.2000
 
         #populate environment
 
@@ -26,7 +28,7 @@ class environment():
         shared_environment = shared_environment_wrapper(seed)
 
         #create instances of thread classes
-        sim = simulation(shared_environment)
+        sim = simulation(shared_environment, seed)
         api = env_api(shared_environment)
 
         #Define thread tasks
@@ -47,3 +49,10 @@ class environment():
         #necceassary? Threads wont finish
         sim_thread.join()
         api_thread.join()
+
+def main(seed):
+    environment(seed)
+
+if __name__ == "__main__":
+    seed = platform.node()
+    main(seed)
