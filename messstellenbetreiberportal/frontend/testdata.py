@@ -22,7 +22,8 @@ def generate_smartmeters(n):
         yield {
             "uuid": generate_random_string(36),
             "type": random.randint(0, 2),
-            "location": f"{random.uniform(47.754, 53.392)}, {random.uniform(07.071, 14.256)}",
+            "latitude": random.uniform(47.754, 53.392),
+            "longitude": random.uniform(07.071, 14.256),
             "supplier": generate_random_string(12),
             "data": generate_list_of_readings(random.randint(900, 1000))
         }

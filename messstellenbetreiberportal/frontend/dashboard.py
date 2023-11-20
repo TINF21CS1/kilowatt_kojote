@@ -43,7 +43,7 @@ def dashboard():
 
     # Location Data from string
     for smartmeter in smartmeters:
-        smartmeter['location'] = [float(coord) for coord in smartmeter['location'].split(',')]
+        smartmeter['location'] = [smartmeter["latitude"], smartmeter["longitude"]]
 
     # Define Plot Data 
     labels = [datetime.utcfromtimestamp(stamp).strftime('%Y-%m-%d %H:%M:%S') for stamp in uptime.keys()]
