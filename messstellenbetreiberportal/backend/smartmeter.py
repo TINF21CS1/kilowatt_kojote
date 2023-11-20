@@ -40,7 +40,7 @@ smartmeter_data_schema = {
         "timestamp": {
         "description": "Timestamp of the submitted reading",
         "type": "integer",
-        "minimum": 1672527600
+        "minimum": 0
         },
         "reading": {
         "description": "The reading of the reader at the timestamp",
