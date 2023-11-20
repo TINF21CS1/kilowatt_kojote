@@ -4,6 +4,7 @@
     hetzner_ipv6_net: "2a01:4f8:1c1c:dfb7::"
 
   tasks:
+    ### Base Setup ###
     - name: "Add SSH Authorized Keys"
       ansible.posix.authorized_key:
         user: "root"
@@ -13,11 +14,13 @@
         - "https://raw.githubusercontent.com/JM-Lemmi/JM-Lemmi/main/authorized_keys"
         - "https://raw.githubusercontent.com/Petzys/Petzys/main/authorized_keys"
     
+    ### Updates ###
     - name: Update and upgrade apt packages
       apt:
         upgrade: yes
         update_cache: yes
 
+    ### Docker ###
     - name: "[Docker Setup] Install Dependencies"
       ansible.builtin.apt:
         name:
@@ -47,3 +50,8 @@
         state: present
         update_cache: true
 
+    ### Copying config ###
+    - name: "Copy /srv"
+      ansible.builtin.copy:
+        src: "files/srv"
+        dest: "/srv"
