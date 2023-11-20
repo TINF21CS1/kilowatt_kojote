@@ -1,7 +1,8 @@
 import os
 import json
+import time
 
-from .constants import READING_FILE, BUFFER_FILE
+from .constants import READING_FILE, BUFFER_FILE, CONFIG_FILE
 
 def read_meter()->int:
     if os.path.exists(READING_FILE):
@@ -22,3 +23,10 @@ def read_buffer()->list:
 def write_buffer(data:list)->None:
     with open(BUFFER_FILE, "w") as f:
         f.write(json.dumps(data))
+
+def read_config()->dict:
+    while not os.path.exists(CONFIG_FILE):
+        time.sleep(1)
+    with open(CONFIG_FILE, "r") as f:
+        data = json.loads(f.read())
+    return data

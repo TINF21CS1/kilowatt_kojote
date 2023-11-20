@@ -5,3 +5,4 @@ CERT = ''
 
 READING_FILE = 'reading.txt'
 BUFFER_FILE = 'buffer.txt'
+CONFIG_FILE = 'config.txt'
