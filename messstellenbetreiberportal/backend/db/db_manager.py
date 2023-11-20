@@ -1,8 +1,6 @@
 import os
 import sqlite3
 
-# TODO: check_supplier_owns_reader fertigstellen und supplier_reading_history fertigstellen und in supplier.py funktion beide aufrufen und checken ob dem supplier der stromzähler zugeordnet ist. Außerdem noch in allen funktionen die integration mit den headern die von nginx mitkommen fertigstellen, sodass supplier_serial und stromzähler uuid direkt daraus gelesen und verwendet werden
-
 db_path = os.path.join(os.path.dirname(__file__), "database.db")
 
 # Register a smartmeter
@@ -64,14 +62,14 @@ def supplier_smartmeter(supplier_serial):
     return res.fetchall()
 
 # Get all Smartmeters with all data and their associated supplier
-def frontend_smartmeter(supplier_serial):
+def frontend_smartmeter():
 
-    query = "SELECT z.serial_number, z.counter_type, z.latitude, z.longitude, a.supplier_name FROM Stromzaehler z INNER JOIN Stromanbieter a ON z.supplier_serial_number = a.supplier_serial_number WHERE z.supplier_serial_number = ?;"
+    query = "SELECT z.serial_number, z.counter_type, z.latitude, z.longitude, a.supplier_name FROM Stromzaehler z INNER JOIN Stromanbieter a ON z.supplier_serial_number = a.supplier_serial_number;"
 
     con = sqlite3.connect(db_path)
     cursor = con.cursor()
 
-    res = cursor.execute(query, (supplier_serial,))
+    res = cursor.execute(query)
 
     return res.fetchall()
 
@@ -127,7 +125,7 @@ def frontend_supplier_smartmeter(supplier_serial):
 # Insert a new supplier. The serial has to be generated beforehand
 def frontend_supplier_add(supplier_serial, name, notes):
 
-    query = "INSERT INTO Stromanbieter (supplier_serial, supplier_name, notes) VALUES(?, ?, ?);"
+    query = "INSERT INTO Stromanbieter (supplier_serial_number, supplier_name, notes) VALUES(?, ?, ?);"
 
     con = sqlite3.connect(db_path)
     cursor = con.cursor()
