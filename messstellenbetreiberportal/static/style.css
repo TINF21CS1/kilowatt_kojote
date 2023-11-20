@@ -1,0 +1,46 @@
+* {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+div.main-window {
+    display: grid;
+    column-gap: 1rem;
+    grid-template-columns: auto 10%;
+    margin: 2%;
+    min-height: 90vh;
+}
+
+div.flex-container {
+    background-color: #cebded; 
+    padding: 2%;
+    display: flex;
+    flex-flow: row wrap;
+    flex: 8;
+}
+
+div.logo-bar {
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 10% 45% 15% 15% 15%;
+    padding: 5%;
+    align-content: center;
+    align-items: center;    
+}
+
+.logo-title {
+    transform: rotate(90deg);
+    font-size: 3rem;
+    position: relative;
+    top: -5rem
+}
+
+.logo-icon {
+    font-size: 3rem
+}
+
+.logo-bar-element {
+    width: auto;
+    height: auto;
+    object-fit: fill;
+    text-align: center;
+}
