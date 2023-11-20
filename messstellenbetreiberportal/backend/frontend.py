@@ -1,3 +1,4 @@
+import base64
 import jsonschema
 import requests
 from .db import db_manager
@@ -131,9 +132,12 @@ def frontend_supplier_add(json: dict) -> dict:
         raise JSONValidationError("Validation of data failed")
 
     # Here we also need to contact the CA to get the certificate returned
-    certificate = None
-    supplier_serial = None
-    #response = 
+    response = requests.get(CA_DOMAIN_NAME + "/create?name=" + json["name"])
+    certificate = response.content
+
+    certificate_string = base64.b64decode(certificate).decode()
+    sn_start = certificate_string[certificate_string[certificate_string.index("Serial Number"):].index(" ")+1:]
+    supplier_serial = sn_start[:sn_start.index(" ")]
 
     db_manager.frontend_supplier_add(supplier_serial, json["name"], json["notes"])
 
