@@ -2,7 +2,7 @@ version: '3'
 services:
   proxy:
     build:
-      context: .
+      context: ./infra/
       dockerfile: proxy.Dockerfile
     ports:
       - 80:80
@@ -17,7 +17,7 @@ services:
   # Infra
   ca:
     build:
-      context: .
+      context: ./ca/
       dockerfile: ca.Dockerfile
     volumes:
       - /srv/ca/:/etc/ca/

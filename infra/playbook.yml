@@ -14,6 +14,15 @@
         - "https://raw.githubusercontent.com/JM-Lemmi/JM-Lemmi/main/authorized_keys"
         - "https://raw.githubusercontent.com/Petzys/Petzys/main/authorized_keys"
     
+    - name: "Set DNS-Servers for NAT64"
+      # Needed for Github and other Legacy Services
+      ansible.builtin.copy:
+        dest: "/etc/resolv.conf"
+        content: |
+          nameserver 2a01:4f9:c010:3f02::1
+          nameserver 2a01:4f8:c2c:123f::1
+          nameserver 2a00:1098:2c::1
+    
     ### Updates ###
     - name: Update and upgrade apt packages
       apt:
@@ -50,8 +59,16 @@
         state: present
         update_cache: true
 
-    ### Copying config ###
-    - name: "Copy /srv"
-      ansible.builtin.copy:
-        src: "files/srv"
-        dest: "/srv"
+    ### Get Project Data ###
+    - name: "Install Package dependencies"
+      ansible.builtin.apt:
+        name:
+          - git
+        state: present
+    
+    - name: "Clone Project"
+      ansible.builtin.git:
+        repo: "https://github.com/TINF21CS1/kilowatt_kojote"
+        dest: "/opt/kilowatt_kojote"
+        update: yes
+        version: main
