@@ -8,6 +8,7 @@ from .errors import errors_smartmeter
 import time
 import logging
 from ..backend.frontend import frontend_smartmeter, JSONValidationError
+from .smartmeter import smartermeter_usage
 
 logger = logging.getLogger(__name__)
 
@@ -31,6 +32,15 @@ def dashboard():
     last_24_hour_uptime = {key: value for key, value in uptime.items() if key >= current_time-day_interval}
     average_uptime = sum(last_24_hour_uptime.values()) / len(last_24_hour_uptime) if len(last_24_hour_uptime) > 0 else 0
 
+    # Get current usage and avg 24 usage
+    smartmeters = smartermeter_usage(smartmeters)
+    current_usages = []
+    for smartmeter in smartmeters:
+        if len(smartmeter["data"]) > 1:
+            current_usages.append(smartmeter["data"][0]["usage"])
+
+    avgerage_current_usage = sum(current_usages) / len(current_usages) if current_usages else 0
+
     # Location Data from string
     for smartmeter in smartmeters:
         smartmeter['location'] = [float(coord) for coord in smartmeter['location'].split(',')]
@@ -48,4 +58,5 @@ def dashboard():
         average_uptime = round(average_uptime*100, 2),
         smartmeters=smartmeters,
         errors=errors_smartmeter(smartmeters),
+        usage=avgerage_current_usage
     )
