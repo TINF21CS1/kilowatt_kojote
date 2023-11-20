@@ -33,3 +33,21 @@ on the dev machine:
 apt install apache2-utils
 htpasswd infra/files/srv/proxy/.htpasswd <username>
 ```
+
+### Creating a CA
+
+```
+apt install openssl
+openssl genpkey -algorithm ED25519 -out ca.key
+openssl req -new -x509 -days 90 -key ca.key -out ca.crt
+```
+
+```
+Country Name (2 letter code) [AU]:DE
+State or Province Name (full name) [Some-State]:Baden-Württemberg
+Locality Name (eg, city) []:Mannheim
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:Kilowattkojote
+Organizational Unit Name (eg, section) []:
+Common Name (e.g. server FQDN or YOUR name) []:ca.kilowattkojote.de
+Email Address []:s212689@student.dhbw-mannheim.de
+```
