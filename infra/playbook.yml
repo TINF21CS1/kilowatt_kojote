@@ -58,6 +58,17 @@
           - docker-compose-plugin
         state: present
         update_cache: true
+    
+    - name: "[Docker Setup] Enable IPv4"
+      ansible.builtin.copy:
+        dest: "/etc/docker/daemon.json"
+        content: |
+          {
+            "ipv6": true,
+            "fixed-cidr-v6": "2a01:4f8:1c1c:dfb7:dddd::/80"
+          }
+      notify:
+        - restart docker
 
     ### Get Project Data ###
     - name: "Install Package dependencies"
@@ -72,3 +83,9 @@
         dest: "/opt/kilowatt_kojote"
         update: yes
         version: main
+  
+  handlers:
+    - name: restart docker
+      ansible.builtin.service:
+        name: docker
+        state: restarted
