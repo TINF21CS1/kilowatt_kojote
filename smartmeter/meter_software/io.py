@@ -5,7 +5,7 @@ import time
 from .constants import READING_FILE, BUFFER_FILE, CONFIG_FILE
 
 def read_meter()->int:
-    if os.path.exists(READING_FILE):
+    if os.path.isfile(READING_FILE):
         with open(READING_FILE, "r") as f:
             current = int(f.read())
         return current
@@ -13,7 +13,7 @@ def read_meter()->int:
         return 0
 
 def read_buffer()->list:
-    if os.path.exists(BUFFER_FILE):
+    if os.path.isfile(BUFFER_FILE):
         with open(BUFFER_FILE, "r") as f:
             data = json.loads(f.read())
         return data
@@ -25,7 +25,7 @@ def write_buffer(data:list)->None:
         f.write(json.dumps(data))
 
 def read_config()->dict:
-    while not os.path.exists(CONFIG_FILE):
+    while not os.path.isfile(CONFIG_FILE):
         time.sleep(1)
     with open(CONFIG_FILE, "r") as f:
         data = json.loads(f.read())
