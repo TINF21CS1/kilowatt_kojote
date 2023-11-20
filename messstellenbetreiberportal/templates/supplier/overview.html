@@ -21,9 +21,9 @@
     <tbody>
       {% for supplier in suppliers %}
         <tr>
-          <td>{{ smartmeter.uuid }}</td>
-          <td>{{ smartmeter.type }}</td>
-          <td>{{ smartmeter.notes }}</td>
+          <td>{{ supplier.id }}</td>
+          <td>{{ supplier.supplier }}</td>
+          <td>{{ supplier.notes }}</td>
         </tr>
       {% endfor %}
     </tbody>

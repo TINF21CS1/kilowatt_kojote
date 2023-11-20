@@ -3,12 +3,11 @@ from flask import (
 )
 
 from datetime import datetime
-from .testdata import get_smartmeter_test_list
 from .availability import uptime_smartmeters
 from .errors import errors_smartmeter
 import time
 import logging
-#from ..backend.frontend import frontend_smartmeter
+from ..backend.frontend import frontend_smartmeter, JSONValidationError
 
 logger = logging.getLogger(__name__)
 
@@ -18,9 +17,8 @@ bp = Blueprint('dashboard', __name__, url_prefix='/')
 def dashboard():
     # Create list of smartmeters
     try:
-        smartmeters = get_smartmeter_test_list(10) # TODO: Replace with real data
-        #smartmeters = frontend_smartmeter()
-    except ValueError as e:
+        smartmeters = frontend_smartmeter()
+    except JSONValidationError as e:
         logger.exception(e)
         return render_template('error.html', errors=str(e))
 
@@ -46,7 +44,7 @@ def dashboard():
         template_name_or_list='smartmeter/dashboard.html',
         data=data,
         labels=labels,
-        current_uptime = round(data[-1]*100, 2),
+        current_uptime = round(data[-1]*100, 2) if data else 0,
         average_uptime = round(average_uptime*100, 2),
         smartmeters=smartmeters,
         errors=errors_smartmeter(smartmeters),

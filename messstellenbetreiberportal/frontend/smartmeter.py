@@ -6,7 +6,7 @@ from datetime import datetime
 from .testdata import get_smartmeter_test_list
 from .availability import uptime_smartmeters
 from .errors import errors_smartmeter
-from ..backend.frontend import frontend_smartmeter_revoke, frontend_smartmeter, frontend_smartmeter_reading
+from ..backend.frontend import frontend_smartmeter_revoke, frontend_smartmeter, frontend_smartmeter_reading, JSONValidationError
 import time
 import logging
 
@@ -25,14 +25,13 @@ def overview():
     if request.method == 'POST' and "id" in request.form:
         try:
             frontend_smartmeter_revoke(request.form["id"])
-        except ValueError as e:
+        except JSONValidationError as e:
             logger.exception(e)
             return render_template('error.html', errors=str(e))
 
     try:
-        smartmeters = get_smartmeter_test_list(100) # TODO: Change to real data
-        #smartmeters = frontend_smartmeter()
-    except ValueError as e:
+        smartmeters = frontend_smartmeter()
+    except JSONValidationError as e:
         logger.exception(e)
         return render_template('error.html', errors=str(e))
     
@@ -47,7 +46,7 @@ def detail():
             "uuid" : request.args.get("id"),
             "data" : frontend_smartmeter_reading(request.args.get("id"))
         }]
-    except ValueError as e:
+    except JSONValidationError as e:
         logger.exception(e)
         return render_template('error.html', errors=str(e))
 

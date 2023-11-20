@@ -2,7 +2,7 @@ from flask import (
     Blueprint, redirect, render_template, request, session, url_for
 )
 import logging
-from ..backend.frontend import frontend_supplier_add, frontend_supplier_assign, frontend_supplier, frontend_smartmeter
+from ..backend.frontend import frontend_supplier_add, frontend_supplier_assign, frontend_supplier, frontend_smartmeter, JSONValidationError
 
 logger = logging.getLogger(__name__)
 
@@ -10,7 +10,9 @@ bp = Blueprint('supplier', __name__, url_prefix='/supplier')
 
 @bp.route('', methods=['GET'])
 def supplier():
-    return render_template('supplier/overview.html')
+    return render_template(
+        template_name_or_list='supplier/overview.html',
+        suppliers=frontend_supplier())
 
 @bp.route('/add', methods=['GET', 'POST'])
 def add():
@@ -20,7 +22,7 @@ def add():
         
         try: 
             frontend_supplier_add({"name": name, "notes": notes})
-        except ValueError as e:
+        except JSONValidationError as e:
             logger.exception(e)
             return render_template('error.html', errors=str(e))
         
@@ -36,7 +38,7 @@ def assign():
         
         try:
             frontend_supplier_assign({"uuid":supplier_uuid, "smartmeter":smartmeter_uuid})
-        except ValueError as e:
+        except JSONValidationError as e:
             logger.exception(e)
             return render_template('error.html', errors=str(e))
         
@@ -44,9 +46,9 @@ def assign():
     
     else:
         try:
-            # smartmeters = frontend_smartmeter() # TODO: Replace with real data
+            smartmeters = frontend_smartmeter()
             suppliers = frontend_supplier()
-        except ValueError as e:
+        except JSONValidationError as e:
             logger.exception(e)
             return render_template('error.html', errors=str(e))
 

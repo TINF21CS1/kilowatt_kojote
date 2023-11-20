@@ -46,6 +46,9 @@ def uptime_smartmeters(smartmeter:list, interval:int = INTERVAL, timeframe:int =
         dict(int, float): Dictionary with the uptime for each interval
     """
 
+    if not smartmeter:
+        return {}
+
     # Get the uptime for each smartmeter
     uptime = OrderedDict()
     for meter in smartmeter:
