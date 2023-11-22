@@ -7,4 +7,4 @@ COPY ./hooks.yaml /etc/webhooks/hooks.yaml
 COPY ./*.sh /etc/webhooks/
 RUN chmod +x ./*.sh
 
-CMD ["webhook", "-hooks=/etc/webhooks/hooks.yaml"]
+CMD webhook -hooks=/etc/webhooks/hooks.yaml -port=80 -urlprefix=api -verbose
