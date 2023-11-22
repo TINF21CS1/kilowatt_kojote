@@ -24,6 +24,16 @@ services:
     networks:
       server:
         ipv6_address: 2a01:4f8:1c1c:dfb7:1::ca
+  
+  # Frontend
+  messstellenbetreiberportal:
+    build:
+      context: ./messstellenbetreiberportal/
+      dockerfile: webapp.Dockerfile
+    networks:
+      server:
+        aliases:
+          - frontend
 
 networks:
   server:
