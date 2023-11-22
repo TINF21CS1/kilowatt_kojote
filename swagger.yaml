@@ -4,7 +4,7 @@ info:
   title: "Kilowatt Kojote"
 
 servers:
-  - url: "https://www.kilowattkojote.de/api"
+  - url: "https://api.kilowattkojote.de/"
 
 paths:
   /smartmeter/register:
