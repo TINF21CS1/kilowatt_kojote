@@ -11,6 +11,6 @@ dist/
 build/
 *.egg-info/
 .venv*
+venv
 *.ps1
-
 *.db
