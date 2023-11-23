@@ -12,7 +12,7 @@ paths:
       requestBody:
         content:
           application/json:
-            example: '{"type": 0}'
+            example: '{"type": 0, "latitude": 5.55555, "longitude": 5,55555}'
             schema: {
               "type": "object",
               "properties": {
@@ -62,7 +62,7 @@ paths:
                   "timestamp": {
                     "description": "Timestamp of the submitted reading",
                     "type": "integer",
-                    "minimum": 1672527600
+                    "minimum": 0
                   },
                   "reading": {
                     "description": "The reading of the reader at the timestamp",
