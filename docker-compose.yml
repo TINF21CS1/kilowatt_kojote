@@ -1,0 +1,54 @@
+version: '3'
+services:
+  proxy:
+    build:
+      context: ./infra/
+      dockerfile: proxy.Dockerfile
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /etc/letsencrypt/:/etc/letsencrypt/:ro
+      - /srv/ca/:/etc/ca/:ro
+    networks:
+      server:
+        ipv6_address: 2a01:4f8:1c1c:dfb7:1::ff
+
+  # Infra
+  ca:
+    build:
+      context: ./ca/
+      dockerfile: ca.Dockerfile
+    volumes:
+      - /srv/ca/:/etc/ca/
+    networks:
+      server:
+        ipv6_address: 2a01:4f8:1c1c:dfb7:1::ca
+  
+  # Frontend
+  messstellenbetreiberportal:
+    build:
+      context: ./messstellenbetreiberportal/
+      dockerfile: webapp.Dockerfile
+    networks:
+      server:
+        aliases:
+          - frontend
+
+networks:
+  server:
+    driver: bridge
+    enable_ipv6: true
+    ipam:
+      driver: default
+      config:
+      - subnet: 2a01:4f8:1c1c:dfb7:1::/80
+        gateway: 2a01:4f8:1c1c:dfb7:1::1
+  meters:
+    driver: bridge
+    enable_ipv6: true
+    ipam:
+      driver: default
+      config:
+      - subnet: 2a01:4f8:1c1c:dfb7:2::/80
+        gateway: 2a01:4f8:1c1c:dfb7:2::1

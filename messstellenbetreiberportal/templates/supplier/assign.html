@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Stromzähler und Anbieter verknüpfen{% endblock %}
+
+{% block headline %}Stromzähler und Anbieter verknüpfen{% endblock %}
+
+{% block content %}
+<div class="supplier-form">
+    <form method="post">
+        <p>
+            <label for="supplier" class="form-label">Stromanbieter</label>
+            <select class="form-select" id="supplier" name="supplier">
+                {% for supplier in suppliers %}
+                    <option value="{{ supplier.id }}">{{ supplier.supplier }}</option>
+                {% endfor %}
+            </select>
+        </p>
+
+        <p>
+            <label for="smartmeter" class="form-label">Stromzähler</label>
+            <select class="form-select" id="smartmeter" name="smartmeter">
+                {% for smartmeter in smartmeters %}
+                    <option value="{{ smartmeter.uuid }}">{{ smartmeter.uuid }}</option>
+                {% endfor %}
+            </select>
+        </p>
+
+        <button type="submit" class="btn btn-success">Speichern</button>
+        <a href="{{ url_for('supplier.supplier') }}" class="btn btn-danger">Abbrechen</a>
+      </form>
+</div>
+{% endblock %}

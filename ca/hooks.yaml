@@ -1,0 +1,13 @@
+- id: create
+  execute-command: "/etc/webhooks/create-cert.sh"
+  command-working-directory: "/srv/ca"
+  pass-arguments-to-command:
+    - source: "query"
+      name: "name"
+  include-command-output-in-response: true
+- id: revoke
+  execute-command: "/etc/webhooks/revoke-cert.sh"
+  command-working-directory: "/srv/ca"
+  pass-arguments-to-command:
+    - source: "query"
+      name: "serial"

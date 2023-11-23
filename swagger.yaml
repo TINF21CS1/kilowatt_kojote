@@ -4,7 +4,7 @@ info:
   title: "Kilowatt Kojote"
 
 servers:
-  - url: "https://www.kilowattkojote.de/api"
+  - url: "https://api.kilowattkojote.de/"
 
 paths:
   /smartmeter/register:
@@ -12,7 +12,7 @@ paths:
       requestBody:
         content:
           application/json:
-            example: '{"type": 0}'
+            example: '{"type": 0, "latitude": 5.55555, "longitude": 5,55555}'
             schema: {
               "type": "object",
               "properties": {

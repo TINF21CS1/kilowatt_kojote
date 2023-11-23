@@ -1,9 +1,35 @@
-{% extends 'base.html' %}
+{% extends 'overview_template.html' %}
 
 {% block title %}Stromzähler Übersicht{% endblock %}
 
-{% block header %}Stromzähler Übersicht{% endblock %}
+{% block headline %}Stromzähler Übersicht{% endblock %}
 
 {% block content %}
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+<table id="data" class="table table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Typ</th>
+        <th>Breitengrad</th>
+        <th>Längengrad</th>
+        <th>Stromanbieter</th>
+        <th>Letzter Zählerstand</th>
+        <th>Letzter Verbrauch</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for smartmeter in smartmeters %}
+        <tr>
+            <td> <a href="{{ url_for('smartmeter.smartmeter', id=smartmeter.uuid) }}">{{ smartmeter.uuid }}</a></td>
+            <td>{{ smartmeter.type }}</td>
+            <td>{{ smartmeter.latitude }}</td>
+            <td>{{ smartmeter.longitude }}</td>
+            <td>{{ smartmeter.supplier }}</td>
+            <td>{{ smartmeter.data[0]["reading"] }} kWh</td>
+            <td>{{ smartmeter.data[0]["usage"] }} W</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 {% endblock %}
+
