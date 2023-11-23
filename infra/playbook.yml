@@ -1,0 +1,91 @@
+---
+- hosts: all
+  vars:
+    hetzner_ipv6_net: "2a01:4f8:1c1c:dfb7::"
+
+  tasks:
+    ### Base Setup ###
+    - name: "Add SSH Authorized Keys"
+      ansible.posix.authorized_key:
+        user: "root"
+        state: present
+        key: "{{ item }}"
+      with_items:
+        - "https://raw.githubusercontent.com/JM-Lemmi/JM-Lemmi/main/authorized_keys"
+        - "https://raw.githubusercontent.com/Petzys/Petzys/main/authorized_keys"
+    
+    - name: "Set DNS-Servers for NAT64"
+      # Needed for Github and other Legacy Services
+      ansible.builtin.copy:
+        dest: "/etc/resolv.conf"
+        content: |
+          nameserver 2a01:4f9:c010:3f02::1
+          nameserver 2a01:4f8:c2c:123f::1
+          nameserver 2a00:1098:2c::1
+    
+    ### Updates ###
+    - name: Update and upgrade apt packages
+      apt:
+        upgrade: yes
+        update_cache: yes
+
+    ### Docker ###
+    - name: "[Docker Setup] Install Dependencies"
+      ansible.builtin.apt:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - python3
+          - pipx
+          - python3-docker
+        state: present
+        update_cache: true
+    - name: "[Docker Setup] Docker Repo-GPG"
+      ansible.builtin.apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+    - name: "[Docker Setup] Docker Repository"
+      ansible.builtin.apt_repository:
+        repo: "deb https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable"
+        state: present
+    - name: "[Docker Setup] Install Docker"
+      ansible.builtin.apt:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-compose-plugin
+        state: present
+        update_cache: true
+    
+    - name: "[Docker Setup] Enable IPv4"
+      ansible.builtin.copy:
+        dest: "/etc/docker/daemon.json"
+        content: |
+          {
+            "ipv6": true,
+            "fixed-cidr-v6": "2a01:4f8:1c1c:dfb7:dddd::/80"
+          }
+      notify:
+        - restart docker
+
+    ### Get Project Data ###
+    - name: "Install Package dependencies"
+      ansible.builtin.apt:
+        name:
+          - git
+        state: present
+    
+    - name: "Clone Project"
+      ansible.builtin.git:
+        repo: "https://github.com/TINF21CS1/kilowatt_kojote"
+        dest: "/opt/kilowatt_kojote"
+        update: yes
+        version: main
+  
+  handlers:
+    - name: restart docker
+      ansible.builtin.service:
+        name: docker
+        state: restarted

@@ -1,0 +1,7 @@
+all:
+  children:
+    servers:
+      hosts:
+        srv1:
+          ansible_host: srv1.kilowattkojote.de
+          ansible_user: root
