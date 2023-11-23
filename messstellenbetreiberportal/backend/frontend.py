@@ -7,7 +7,7 @@ MAX_SUPPLIER_NAME_LEN = 500
 MIN_SUPPLIER_NAME_LEN = 2
 MAX_SUPPLIER_NOTES_LEN = 5000
 
-CA_DOMAIN_NAME = "ca.kilowattkojote.de/api"
+CA_DOMAIN_NAME = "http://ca.kilowattkojote.de/api"
 
 frontend_supplier_add_schema = {
     "type": "object",
