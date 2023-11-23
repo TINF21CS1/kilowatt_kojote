@@ -1,0 +1,112 @@
+{% extends 'overview_template.html' %}
+
+{% block header %}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css" />
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+{% endblock %}
+
+{% block title %}Stromzähler: {{ uuid }}{% endblock %}
+
+{% block headline %}
+Stromzähler<br> 
+<div style="font-size: 1rem;"> {{ uuid }} </div>
+{% endblock %}
+
+{% block headline_buttons %}
+<form action="{{ url_for('smartmeter.smartmeter') }}" method="post" onsubmit="return confirm('Wollen Sie den Zähler wirklich zurückziehen?\n\nDiese Aktion ist irreversibel und macht den Stromzähler {{ uuid }} bis zur manuellen Umstellung nutzlos.');">
+    <input type="hidden" name="id" value="{{ uuid }}">
+    <button id="revoke-button" type="submit" class="btn btn-danger">Zurückziehen</button>
+</form>
+{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+    <div class="uptime-graph">
+        <canvas id="uptime"></canvas>
+    </div>
+    <div class="readings">
+        <table id="data" class="table table-striped">
+            <thead>
+              <tr>
+                <th>Zeitpunkt</th>
+                <th>Zählerstand</th>
+                <th>Verbrauch</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for reading in smartmeter["data"] %}
+                <tr>
+                    <td>{{ unix_to_datetime(reading.timestamp) }}</td> 
+                    <td>{{ reading.reading }}</td>
+                    <td>{{ reading.usage }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+    </div>
+    <div class="meter-logs">
+        <h3>Fehlermeldungen</h3>
+        <table id="errors" class="table table-striped">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Zeitpunkt</th>
+                <th>Fehlermeldung</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for error in errors %}
+                <tr>
+                    <td>{{ error.uuid }}</td>
+                    <td>{{ error.timestamp }}</td>
+                    <td>{{ error.message }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+    $(document).ready(function () {
+      $('#data').DataTable();
+    });
+</script>
+
+<script>
+$(document).ready(function () {
+    $('#errors').DataTable();
+});
+</script>
+
+<script>
+    const labels = {{ labels | tojson}};
+        
+    const data = {
+        labels: labels,
+        datasets: [{
+            label: 'Durschnittliche Verfügbarkeit',
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: {{ data | tojson}},
+        }]
+    };
+
+    Chart.defaults.color = '#FFFFFF';
+
+    const config = {
+        type: 'line',
+        data: data,
+        options: { maintainAspectRatio: false }
+    };
+
+    const uptime = new Chart(
+        document.getElementById('uptime'),
+        config
+    );
+</script>
+{% endblock %}

@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block header %} 
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+crossorigin=""/>
+{% endblock %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block headline %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+    <div class="uptime-graph">
+        <canvas id="uptime"></canvas>
+    </div>
+    <div class="uptime-percentage">
+        <p> Aktuelle Verfügbarkeit: {{ current_uptime }}% </p>
+        <p> Verfügbarkeit über den letzten 24 Stunden: {{ average_uptime }}% </p>
+        <p> Aktueller Verbrauch: {{ usage }}kW </p>
+    </div>
+    <div class="meter-map">
+        <div id="map"></div>
+    </div>
+    <div class="meter-logs">
+        <h3>Fehlermeldungen</h3>
+        <table id="data" class="table table-striped">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Zeitpunkt</th>
+                <th>Fehlermeldung</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for error in errors %}
+                <tr>
+                    <td>{{ error.uuid }}</td>
+                    <td>{{ error.timestamp }}</td>
+                    <td>{{ error.message }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+
+<script>
+    $(document).ready(function () {
+      $('#data').DataTable();
+    });
+  </script>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
+
+<script>
+    const labels = {{ labels | tojson}};
+        
+    const data = {
+        labels: labels,
+        datasets: [{
+            label: 'Durschnittliche Verfügbarkeit',
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: {{ data | tojson}},
+        }]
+    };
+
+    Chart.defaults.color = '#FFFFFF';
+
+    const config = {
+        type: 'line',
+        data: data,
+        options: { maintainAspectRatio: false }
+    };
+
+    const uptime = new Chart(
+        document.getElementById('uptime'),
+        config
+    );
+</script>
+
+<script>
+    var map = L.map('map').setView([51.165691, 10.451526], 6);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+    {% for smartmeter in smartmeters %}
+        var marker_{{ smartmeter["uuid"] }} = L.marker([{{ smartmeter["location"][0] }}, {{ smartmeter["location"][1] }}], {title:"{{ smartmeter["uuid"] }}" }).addTo(map);
+    {% endfor %}
+</script>
+{% endblock %}

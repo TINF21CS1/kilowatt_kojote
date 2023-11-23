@@ -1,0 +1,31 @@
+{% extends 'overview_template.html' %}
+
+{% block title %}Anbieterübersicht{% endblock %}
+
+{% block headline %}Anbieterübersicht{% endblock %}
+
+{% block headline_buttons %}
+    <a href="{{ url_for('supplier.add') }}" class="btn btn-primary">Anbieter anlegen</a>
+    <a href="{{ url_for('supplier.assign') }}" class="btn btn-primary">Stromzähler und Anbieter verknüpfen</a>
+{% endblock %}
+
+{% block content %}
+<table id="data" class="table table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Anmerkungen</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for supplier in suppliers %}
+        <tr>
+          <td>{{ supplier.id }}</td>
+          <td>{{ supplier.supplier }}</td>
+          <td>{{ supplier.notes }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
