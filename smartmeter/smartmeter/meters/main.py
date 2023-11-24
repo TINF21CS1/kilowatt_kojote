@@ -3,7 +3,7 @@ from enum import Enum
 from smartmeter.io.filehandler import write_reading
 import time
 
-from smartmeter.constants import UPDATE_FREQUENCE, LOCATION_LIMITS_LATITUDE, LOCATION_LIMITS_LONGITUDE
+from smartmeter.constants import LOCATION_LIMITS_LATITUDE, LOCATION_LIMITS_LONGITUDE
 
 class meter_type(Enum):
     residential = 0
