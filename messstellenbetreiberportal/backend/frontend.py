@@ -10,6 +10,7 @@ MIN_SUPPLIER_NAME_LEN = 2
 MAX_SUPPLIER_NOTES_LEN = 5000
 
 CA_DOMAIN_NAME = "http://ca.kilowattkojote.de/api"
+CERTIFICATE_PASSPHRASE = b"kilowattkojote"
 
 frontend_supplier_add_schema = {
     "type": "object",
@@ -139,7 +140,7 @@ def frontend_supplier_add(json: dict) -> dict:
 
     certificate_decoded = base64.b64decode(certificate_b64)
 
-    private_key, certificate, additional_certs = pkcs12.load_key_and_certificates(certificate_decoded, b"kilowattkojote", default_backend)
+    private_key, certificate, additional_certs = pkcs12.load_key_and_certificates(certificate_decoded, CERTIFICATE_PASSPHRASE, default_backend)
     supplier_serial = str(certificate.serial_number)
 
     db_manager.frontend_supplier_add(supplier_serial, json["name"], json["notes"])
