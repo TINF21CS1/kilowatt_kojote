@@ -1,6 +1,8 @@
 import base64
 import jsonschema
 import requests
+from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives.serialization import pkcs12
 from .db import db_manager
 # Für falsche Dinge value error throwen mit nachricht was es ist
 MAX_SUPPLIER_NAME_LEN = 500
@@ -133,15 +135,16 @@ def frontend_supplier_add(json: dict) -> dict:
 
     # Here we also need to contact the CA to get the certificate returned
     response = requests.get(CA_DOMAIN_NAME + "/create?name=" + json["name"])
-    certificate = response.content
+    certificate_b64 = response.content
 
-    certificate_string = base64.b64decode(certificate).decode()
-    sn_start = certificate_string[certificate_string[certificate_string.index("Serial Number"):].index(" ")+1:]
-    supplier_serial = sn_start[:sn_start.index(" ")]
+    certificate_decoded = base64.b64decode(certificate_b64)
+
+    private_key, certificate, additional_certs = pkcs12.load_key_and_certificates(certificate_decoded, b"kilowattkojote", default_backend)
+    supplier_serial = str(certificate.serial_number)
 
     db_manager.frontend_supplier_add(supplier_serial, json["name"], json["notes"])
 
-    return {"certificate": certificate}
+    return {"certificate": certificate_b64}
 
 def frontend_supplier_assign(json: dict):
     
