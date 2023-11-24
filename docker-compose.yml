@@ -20,7 +20,7 @@ services:
       context: ./ca/
       dockerfile: ca.Dockerfile
     volumes:
-      - /srv/ca/:/etc/ca/
+      - /srv/ca/:/srv/ca/
     networks:
       server:
         ipv6_address: 2a01:4f8:1c1c:dfb7:1::ca
