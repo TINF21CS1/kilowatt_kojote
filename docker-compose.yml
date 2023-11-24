@@ -34,6 +34,23 @@ services:
       server:
         aliases:
           - frontend
+  
+  # Meters
+  environment:
+    build:
+      context: ./smartmeter/
+      dockerfile: environment.Dockerfile
+    networks:
+      meters:
+
+  smartmeters:
+    build:
+      context: ./smartmeter/
+      dockerfile: smartmeter.Dockerfile
+    networks:
+      meters:
+    deploy:
+      replicas: 10
 
 networks:
   server:

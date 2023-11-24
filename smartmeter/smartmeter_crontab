@@ -1,0 +1,4 @@
+*/15 * * * * python meter.python
+0 6 * * * apt update && apt upgrade -y
+
+# check for updates
