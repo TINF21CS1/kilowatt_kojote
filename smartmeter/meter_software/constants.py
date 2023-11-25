@@ -1,4 +1,4 @@
-URL = 'htpps://kilowattkojote.de'
+URL = 'htpps://api.kilowattkojote.de'
 URL_REGISTER = '/smartmeter/register'
 URL_DATA = '/smartmeter/data'
 CERT = ''
