@@ -4,8 +4,9 @@ from .main import smartmeter
 from smartmeter.io.network import requests
 
 class industry(smartmeter):
-    def __init__(self, seed):
-        super().__init__(seed, self.usage_industrial)
+    def __init__(self, seed, usage_func=None):
+        if(usage_func==None): usage_func=self.usage_industrial
+        super().__init__(seed, usage_func)
         self.size = random.randint(1000, 1000000)
         match a:=random.random():
             case _ if a < 0.5:

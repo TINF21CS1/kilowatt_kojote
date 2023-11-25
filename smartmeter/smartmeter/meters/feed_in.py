@@ -9,9 +9,10 @@ class production_type(Enum):
     gas = auto()
 
 class feed_in(smartmeter):
-    def __init__(self, seed, local=False):
+    def __init__(self, seed, usage_func=None, local=False):
+        if(usage_func==None): usage_func = lambda: -1 * self.production()
         if(not local):
-            super().__init__(seed, lambda: -1 * self.production())
+            super().__init__(seed, usage_func)
             self.reading *= -1
             size = random.randint(300, 1000000000)
             self.production_type = random.choices(list(production_type), [0.7, 0.2, 0.1], 1)[0]

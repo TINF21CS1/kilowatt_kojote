@@ -4,8 +4,9 @@ import random
 from smartmeter.io.network import requests
 
 class residential(smartmeter):
-    def __init__(self, seed):
-        super().__init__(seed, self.usage_residential)
+    def __init__(self, seed, usage_func = None):
+        if(usage_func == None): usage_func=self.usage_residential
+        super().__init__(seed, usage_func)
         self.consumtion = [
 			[250, 250], # 00:00
 			[200, 200], # 01:00
