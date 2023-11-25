@@ -51,5 +51,5 @@ class residential(smartmeter):
     
     def string(self):
         return super().string() + " " + \
-                str(self.households) + " " + \
-                str(self.consumtion)
+                str(f'households={self.households}') + " " + \
+                str(f'consumtion={self.consumtion}')

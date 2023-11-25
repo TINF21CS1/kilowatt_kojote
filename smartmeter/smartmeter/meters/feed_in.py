@@ -34,5 +34,5 @@ class feed_in(smartmeter):
             
     def string(self):
         return super().string() + " " + \
-                str(self.production_type) + " " + \
-                str(self.size)
+                str(f'production_type={self.production_type}') + " " + \
+                str(f'size={self.size}')

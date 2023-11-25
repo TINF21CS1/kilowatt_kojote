@@ -35,4 +35,6 @@ class industry(smartmeter):
     
     def string(self):
         return super().string() + " " + \
-                str(self.usage_industrial())
+                str(f'size={self.size}') + " " + \
+                str(f'shifts={self.shifts}') + " " + \
+                str(f'fluctuation={self.fluctuation}')

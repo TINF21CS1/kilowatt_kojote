@@ -39,6 +39,6 @@ class smartmeter:
 
     def string(self):
         return str(self.__class__.__name__) + " " + \
-                str(self.reading) + " " + \
-                str(self.location) + " " + \
-                str(self.timestamp)
+                str(f'reading={self.reading}') + " " + \
+                str(f'location={self.location}') + " " + \
+                str(f'time={self.timestamp}')
