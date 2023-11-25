@@ -2,7 +2,7 @@ from smartmeter.constants import URL_ENVIRONMENT
 import requests as request_lib
 
 class requests:
-    def get(attributes: list) -> list | any:
+    def get(attributes: list) -> list | object:
         result = list()
         for attribute in attributes:
             response = request_lib.get(url=URL_ENVIRONMENT + '/' + attribute,)
