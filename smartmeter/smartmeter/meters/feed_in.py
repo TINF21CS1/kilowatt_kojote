@@ -14,12 +14,12 @@ class feed_in(smartmeter):
         if(not local):
             super().__init__(seed, usage_func)
             self.reading *= -1
-            size = random.randint(300, 1000000000)
-            self.production_type = random.choices(list(production_type), [0.7, 0.2, 0.1], 1)[0]
+            self.size = random.randint(300, 1000000000)
+            self.production_type = random.choices(list(production_type), [0.7, 0.2, 0.1], k=1)[0]
         else:
             self.reading -= random.uniform(300, 10000)
-            size = random.randint(300, 1000)
-            self.production_type = random.choices(list(production_type), [0.9, 0.1, 0], 1)[0]
+            self.size = random.randint(300, 1000)
+            self.production_type = random.choices(list(production_type), [0.9, 0.1, 0], k=1)[0]
 
 
     def production(self) -> float:
