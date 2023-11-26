@@ -1,11 +1,11 @@
 import random
-from enum import Enum
+from enum import IntEnum
 from smartmeter.io.filehandler import write_reading
 import time
 
 from smartmeter.constants import LOCATION_LIMITS_LATITUDE, LOCATION_LIMITS_LONGITUDE
 
-class meter_type(Enum):
+class meter_type(IntEnum):
     residential = 0
     industry = 1
     feed_in = 2
@@ -25,7 +25,6 @@ class smartmeter:
         self.timestamp = None #request time from environment
         self.datastore = list()
         self.usage = usage_func
-
 
 
     def run(self):

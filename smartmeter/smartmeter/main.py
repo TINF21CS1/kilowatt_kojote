@@ -6,11 +6,12 @@ from .meters.industry import industry
 from .meters.feed_in import feed_in
 from .meters.residential_feed_in import residential_feed_in
 from .constants import METER_OCCURENCES
+from .io.filehandler import write_config
 
 def main(seed):
     random.seed(seed)
-    meter = random.choices(list(meter_type), METER_OCCURENCES, k=1)[0]
-    match meter:
+    meter_id = random.choices(list(meter_type), METER_OCCURENCES, k=1)[0]
+    match meter_id:
         case meter_type.residential:
             meter = residential(seed)
         case meter_type.industry:
@@ -19,4 +20,5 @@ def main(seed):
             meter = feed_in(seed)
         case meter_type.residential_feed_in:
             meter = residential_feed_in(seed)
+    write_config(meter_id, meter.location[0], meter.location[1])
     print(meter.string())
