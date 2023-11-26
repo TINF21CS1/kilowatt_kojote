@@ -56,7 +56,8 @@ def register():
 
     try:
         jsonschema.validate(json, smartmeter_register_schema)
-    except jsonschema.ValidationError:
+    except jsonschema.ValidationError as e:
+        print(e)
         return "", 400
 
     sn = request.headers.get("X-Serialnumber")

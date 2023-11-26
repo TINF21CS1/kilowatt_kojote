@@ -15,7 +15,8 @@ def main():
 def register():
     config = read_config()
     register = {"type": config.get("type"),
-            "latitude": config.get("location"),
-            "longitude": config.get("location"),}
-    while(requests.register(register).status_code != '200'):
+            "latitude": config.get("latitude"),
+            "longitude": config.get("longitude"),}
+    print(register)
+    while(requests.register(register).status_code != 200):
         time.sleep(5)
