@@ -37,7 +37,7 @@ def add():
             buffer,
             as_attachment=True,
             download_name='cert.pfx',
-            mimetype='text/pfx'
+            mimetype='application/x-pkcs12'
         )
     
     return render_template('supplier/add.html')
