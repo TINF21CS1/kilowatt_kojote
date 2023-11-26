@@ -9,7 +9,7 @@ def main():
     data = {"timestamp": time.time(),
         "reading": current_reading}
     datastore.append(data)
-    if((response := requests.send(datastore)).status != '200'):
+    if(requests.send(datastore).status_code != '200'):
         write_buffer(datastore)
 
 def register():
@@ -17,5 +17,5 @@ def register():
     register = {"type": config.get("type"),
             "latitude": config.get("location"),
             "longitude": config.get("location"),}
-    while(requests.register(register).status != '200'):
-        pass
+    while(requests.register(register).status_code != '200'):
+        time.sleep(5)
