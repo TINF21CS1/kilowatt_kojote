@@ -2,7 +2,7 @@ FROM python
 WORKDIR /app
 
 # CRON
-RUN apt update && apt install cron curl -y
+RUN apt update && apt install cron curl openssl -y
 COPY ./smartmeter_crontab /etc/cron.d/meter.cron
 RUN crontab /etc/cron.d/meter.cron
 
