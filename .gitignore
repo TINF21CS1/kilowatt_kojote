@@ -18,3 +18,5 @@ smartmeter/*test.py
 test_hauke*.py
 
 *.db
+reading.txt
+config.txt
