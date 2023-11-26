@@ -1,7 +1,9 @@
 from flask import (
-    Blueprint, redirect, render_template, request, session, url_for
+    Blueprint, redirect, render_template, request, session, url_for, send_file
 )
 import logging
+from io import BytesIO
+import base64
 from ..backend.frontend import frontend_supplier_add, frontend_supplier_assign, frontend_supplier, frontend_smartmeter, JSONValidationError
 
 logger = logging.getLogger(__name__)
@@ -21,12 +23,22 @@ def add():
         notes = request.form['notes']
         
         try: 
-            frontend_supplier_add({"name": name, "notes": notes})
+            dict = frontend_supplier_add({"name": name, "notes": notes})
+            cert = base64.b64decode(dict["certificate"])
         except JSONValidationError as e:
             logger.exception(e)
             return render_template('error.html', errors=str(e))
         
-        return redirect(url_for('supplier.supplier'))
+        buffer = BytesIO()
+        buffer.write(cert)
+        buffer.seek(0)
+
+        return send_file(
+            buffer,
+            as_attachment=True,
+            download_name='cert.pfx',
+            mimetype='application/x-pkcs12'
+        )
     
     return render_template('supplier/add.html')
 
