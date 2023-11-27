@@ -34,6 +34,8 @@ services:
       dockerfile: webapp.Dockerfile
     depends_on:
       - ca
+    volumes:
+      - database:/app/backend/db/
     networks:
       server:
         aliases:
@@ -60,6 +62,9 @@ services:
       - proxy
     deploy:
       replicas: 25
+
+volumes:
+  database:
 
 networks:
   server:
