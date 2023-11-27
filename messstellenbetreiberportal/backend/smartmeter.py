@@ -50,33 +50,35 @@ smartmeter_data_schema = {
     "minItems": 1
 }
 
+serial_number_schema = {"type": "string", "minLength": 1}
+
 @bp.route("/register", methods=["POST"])
 def register():
     json = request.get_json()
+    sn = request.headers.get("X-Serialnumber")
 
     try:
         jsonschema.validate(json, smartmeter_register_schema)
-    except jsonschema.ValidationError as e:
+        jsonschema.validate(sn, serial_number_schema)
+    except jsonschema.ValidationError:
         print(e)
         return "", 400
 
-    sn = request.headers.get("X-Serialnumber")
-
-    db_manager.smartmeter_register(sn, json["type"], round(json["latitude"], 5), round(json["longitude"], 5))
+    db_manager.smartmeter_register(sn, json["type"], json["latitude"], json["longitude"])
     
     return ""
 
 @bp.route("/data", methods=["POST"])
 def data():
     json = request.get_json()
-    
+    sn = request.headers.get("X-Serialnumber")
+
     try:
         jsonschema.validate(json, smartmeter_data_schema)
+        jsonschema.validate(sn, serial_number_schema)
     except jsonschema.ValidationError as e:
         print(e)
         return "", 400
-
-    sn = request.headers.get("X-Serialnumber")
 
     actual_timestamp = int(time.time())
 
