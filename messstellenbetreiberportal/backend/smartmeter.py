@@ -72,7 +72,8 @@ def data():
     
     try:
         jsonschema.validate(json, smartmeter_data_schema)
-    except jsonschema.ValidationError:
+    except jsonschema.ValidationError as e:
+        print(e)
         return "", 400
 
     sn = request.headers.get("X-Serialnumber")

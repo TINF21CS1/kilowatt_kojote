@@ -6,10 +6,13 @@ from .network import requests
 def main():
     current_reading = read_meter()
     datastore = read_buffer()
-    data = {"timestamp": time.time(),
+    data = {"timestamp": int(time.time()),
         "reading": current_reading}
     datastore.append(data)
-    if(requests.send(datastore).status_code != '200'):
+    resp = requests.send(datastore)
+    if(resp.status_code != 200):
+        print("Request failed. Status code: " + str(resp.status_code))
+        print(resp.content)
         write_buffer(datastore)
 
 def register():
