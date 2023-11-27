@@ -60,11 +60,11 @@ def register():
     try:
         jsonschema.validate(json, smartmeter_register_schema)
         jsonschema.validate(sn, serial_number_schema)
-    except jsonschema.ValidationError:
+    except jsonschema.ValidationError as e:
         print(e)
         return "", 400
 
-    db_manager.smartmeter_register(sn, json["type"], json["latitude"], json["longitude"])
+    db_manager.smartmeter_register(sn, json["type"], round(json["latitude"], 5), round(json["longitude"], 5))
     
     return ""
 
