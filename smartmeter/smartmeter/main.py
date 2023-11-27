@@ -22,3 +22,4 @@ def main(seed):
             meter = residential_feed_in(seed)
     write_config(meter_id, meter.location[0], meter.location[1])
     print(meter.string())
+    meter.run()

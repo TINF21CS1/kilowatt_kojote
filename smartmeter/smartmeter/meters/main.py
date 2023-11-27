@@ -31,7 +31,7 @@ class smartmeter:
         while(True):
             self.reading += self.usage()
             write_reading(self.reading)
-            time.sleep(20) #make continuous
+            time.sleep(15*60) #make continuous
 
     def usage(self):
         return 0 #will be overwritten by child classes
