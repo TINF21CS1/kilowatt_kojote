@@ -10,6 +10,8 @@ services:
     volumes:
       - /etc/letsencrypt/:/etc/letsencrypt/:ro
       - /srv/ca/:/etc/ca/:ro
+    depends_on:
+      - messstellenbetreiberportal
     networks:
       server:
         ipv6_address: 2a01:4f8:1c1c:dfb7:1::ff
@@ -24,16 +26,45 @@ services:
     networks:
       server:
         ipv6_address: 2a01:4f8:1c1c:dfb7:1::ca
-  
+
   # Frontend
   messstellenbetreiberportal:
     build:
       context: ./messstellenbetreiberportal/
       dockerfile: webapp.Dockerfile
+    depends_on:
+      - ca
+    volumes:
+      - database:/app/backend/db/
     networks:
       server:
         aliases:
           - frontend
+
+  # Meters
+  environment:
+    build:
+      context: ./smartmeter/
+      dockerfile: environment.Dockerfile
+    networks:
+      meters:
+
+  smartmeters:
+    build:
+      context: ./smartmeter/
+      dockerfile: smartmeter.Dockerfile
+    networks:
+      meters:
+    depends_on:
+      - environment
+      - messstellenbetreiberportal
+      - ca
+      - proxy
+    deploy:
+      replicas: 25
+
+volumes:
+  database:
 
 networks:
   server:

@@ -13,4 +13,10 @@ build/
 .venv*
 venv
 *.ps1
+
+smartmeter/*test.py
+test_hauke*.py
+
 *.db
+reading.txt
+config.txt
