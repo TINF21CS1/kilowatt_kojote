@@ -1,7 +1,9 @@
+SHELL=/bin/bash
+PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 # every 15 minutes, with 5 minutes offset
 10,25,40,55 * * * * python /app/smartmeter.py > /proc/1/fd/1 2>/proc/1/fd/2
-15,30,45,0 * * * * python /app2/meter.python > /proc/1/fd/1 2>/proc/1/fd/2
+15,30,45,0 * * * * python /app2/run.py > /proc/1/fd/1 2>/proc/1/fd/2
 
 # check for updates
 0 6 * * * apt update && apt upgrade -y > /proc/1/fd/1 2>/proc/1/fd/2
