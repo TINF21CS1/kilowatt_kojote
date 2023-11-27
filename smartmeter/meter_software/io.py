@@ -5,12 +5,9 @@ import time
 from .constants import READING_FILE, BUFFER_FILE, CONFIG_FILE
 
 def read_meter()->int:
-    if os.path.isfile(READING_FILE):
-        with open(READING_FILE, "r") as f:
-            current = int(f.read())
-        return current
-    else:
-        return 0
+    with open(READING_FILE, "r") as f:
+        current = int(float(f.read()))
+    return current
 
 def read_buffer()->list:
     if os.path.isfile(BUFFER_FILE):
