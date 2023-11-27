@@ -2,7 +2,7 @@ SHELL=/bin/bash
 PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 # every 15 minutes
-*/15 * * * * python /app/meter_software_run.py > /proc/1/fd/1 2>/proc/1/fd/2
+0,15,30,45 * * * * python /app/meter_software_run.py > /proc/1/fd/1 2>/proc/1/fd/2
 
 # check for updates
 0 6 * * * apt update && apt upgrade -y > /proc/1/fd/1 2>/proc/1/fd/2
