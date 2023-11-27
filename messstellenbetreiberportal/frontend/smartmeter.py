@@ -52,8 +52,6 @@ def detail():
 
     smartmeter = smartermeter_usage(smartmeter)
 
-    print(smartmeter)
-
     # Get uptime for smartmeter
     current_time = int(time.time())
     uptime = uptime_smartmeters(smartmeter, current_time=current_time)
