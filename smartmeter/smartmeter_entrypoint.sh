@@ -11,7 +11,7 @@ echo "[#] openssl pkcs12 -in /app/cert.pfx -out /app/client.pem -nokeys -clcerts
 openssl pkcs12 -in /app/cert.pfx -out /app/client.pem -nokeys -password pass:kilowattkojote
 
 echo "[#] python /app/smartmeter.py"
-python /app/smartmeter.py
+python /app/smartmeter.py > /proc/1/fd/1 2>/proc/1/fd/2 &
 echo "[#] python /app/meter_software_init.py"
 python /app/meter_software_init.py
 
