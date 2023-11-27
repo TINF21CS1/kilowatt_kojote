@@ -7,4 +7,5 @@ class requests:
         return request_lib.post(url=URL+URL_REGISTER, json=data, cert=(CERT_PEM, CERT_KEY))
 
     def send(data):
+        print(data)
         return request_lib.post(url=URL+URL_DATA, json=data, cert=(CERT_PEM, CERT_KEY))
