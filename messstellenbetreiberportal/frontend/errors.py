@@ -66,6 +66,7 @@ def errors_smartmeter(smartmeter:list, interval:int = INTERVAL) -> list:
     errors = []
     for meter in smartmeter:
         errors += dowtime_error(meter)
-        errors += backwards_reading_error(meter)
+        if meter["type"] not in [2,3]:
+            errors += backwards_reading_error(meter)
 
     return errors
