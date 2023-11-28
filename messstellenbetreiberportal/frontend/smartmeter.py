@@ -77,7 +77,8 @@ def unix_to_datetime(unix_time):
 # Expand smartmeter data with usage details
 def smartermeter_usage(smartmeters:list) -> list:
     for smartmeter in smartmeters:
-        for i, data in enumerate(smartmeter["data"]):
+        sorted_data_list = sorted(smartmeter["data"], key=lambda x: x["timestamp"])
+        for i, data in enumerate(sorted_data_list):
             # Check if previous list entry exists
             if len(smartmeter["data"]) > i+1:
                 # Calculate usage
