@@ -83,4 +83,6 @@ def smartermeter_usage(smartmeters:list) -> list:
             if len(smartmeter["data"]) > i+1:
                 # Calculate usage
                 data["usage"] = round((data["reading"] - smartmeter["data"][i+1]["reading"])*1000 / (data["timestamp"] - smartmeter["data"][i+1]["timestamp"]), 2) if data["timestamp"] - smartmeter["data"][i+1]["timestamp"] != 0 else "FEHLER"
+            else:
+                data["usage"] = 0
     return smartmeters
