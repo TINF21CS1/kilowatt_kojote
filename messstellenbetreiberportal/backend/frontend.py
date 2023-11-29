@@ -1,5 +1,6 @@
 import base64
 import jsonschema
+import logging
 import requests
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.serialization import pkcs12
@@ -11,6 +12,7 @@ MAX_SUPPLIER_NOTES_LEN = 5000
 
 CA_DOMAIN_NAME = "http://ca.kilowattkojote.de/api"
 CERTIFICATE_PASSPHRASE = b"kilowattkojote"
+logger = logging.getLogger(__name__)
 
 frontend_supplier_add_schema = {
     "type": "object",
@@ -75,7 +77,8 @@ def frontend_smartmeter_reading(uuid: str) -> list:
     
     try:
         jsonschema.validate(uuid, uuid_schema)
-    except jsonschema.ValidationError:
+    except jsonschema.ValidationError as e:
+        logger.info(f"UUID Validation from Frontend failed:\n{e}")
         raise JSONValidationError("UUID has an invalid format")
 
     raw_output = db_manager.frontend_smartmeter_getAllMeterData(uuid)
@@ -88,9 +91,11 @@ def frontend_smartmeter_revoke(uuid: str):
 
     try:
         jsonschema.validate(uuid, uuid_schema)
-    except jsonschema.ValidationError:
+    except jsonschema.ValidationError as e:
+        logger.info(f"UUID Validation from Frontend failed:\n{e}")
         raise JSONValidationError("UUID has an invalid format")
 
+    logger.info(f"Revoked the certificate of smartmeter with serial number {uuid}")
     # Here we need to contact endpoint of CA
     response = requests.get(CA_DOMAIN_NAME + "/revoke?serial=" + uuid)
 
@@ -99,7 +104,8 @@ def frontend_smartmeter_supplier(uuid: str) -> dict:
     
     try:
         jsonschema.validate(uuid, uuid_schema)
-    except jsonschema.ValidationError:
+    except jsonschema.ValidationError as e:
+        logger.info(f"UUID Validation from Frontend failed:\n{e}")
         raise JSONValidationError("UUID has an invalid format")
     
     raw_data = db_manager.frontend_smartmeter_supplier(uuid)
@@ -119,7 +125,8 @@ def frontend_supplier_smartmeter(uuid: str) -> list:
 
     try:
         jsonschema.validate(uuid, uuid_schema)
-    except jsonschema.ValidationError:
+    except jsonschema.ValidationError as e:
+        logger.info(f"UUID Validation from Frontend failed:\n{e}")
         raise JSONValidationError("UUID has an invalid format")
     
     raw_data = db_manager.frontend_supplier_smartmeter(uuid)
@@ -131,7 +138,8 @@ def frontend_supplier_add(json: dict) -> dict:
 
     try:
         jsonschema.validate(json, frontend_supplier_add_schema)
-    except jsonschema.ValidationError:
+    except jsonschema.ValidationError as e:
+        logger.info(f"Validation of adding a supplier from frontend failed:\n{e}")
         raise JSONValidationError("Validation of data failed")
 
     # Here we also need to contact the CA to get the certificate returned
@@ -142,6 +150,7 @@ def frontend_supplier_add(json: dict) -> dict:
 
     private_key, certificate, additional_certs = pkcs12.load_key_and_certificates(certificate_decoded, CERTIFICATE_PASSPHRASE, default_backend)
     supplier_serial = str(certificate.serial_number)
+    logger.info(f"Created a supplier '{json["name"]}' and the corresponding certificate with serial number {supplier_serial}")
 
     db_manager.frontend_supplier_add(supplier_serial, json["name"], json["notes"])
 
@@ -151,7 +160,8 @@ def frontend_supplier_assign(json: dict):
     
     try:
         jsonschema.validate(json, frontend_supplier_assign_schema)
-    except jsonschema.ValidationError:
+    except jsonschema.ValidationError as e:
+        logger.info(f"Validation of assigning a supplier from frontend failed:\n{e}")
         raise JSONValidationError("Validation of data failed")
     
     db_manager.frontend_supplier_assign(json["uuid"], json["smartmeter"])
