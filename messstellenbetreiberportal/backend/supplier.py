@@ -23,6 +23,7 @@ def reading_history():
         return "", 400
 
     sn = request.headers.get("X-Serialnumber")
+    sn = str(int(sn, 16))
 
     if not db_manager.check_supplier_owns_reader(sn, serial_number):
         return "", 403
@@ -44,6 +45,7 @@ def reading_current():
         return "", 400
 
     sn = request.headers.get("X-Serialnumber")
+    sn = str(int(sn, 16))
 
     if not db_manager.check_supplier_owns_reader(sn, serial_number):
         return "", 403
@@ -57,8 +59,10 @@ def reading_current():
 def smartmeter():
 
     sn = request.headers.get("X-Serialnumber")
+    sn = str(int(sn, 16))
 
     raw_output = db_manager.supplier_smartmeter(sn)
+
     keys = ["uuid", "type", "latitude", "longitude", "supplier"]
 
     return jsonify([dict(zip(keys, row)) for row in raw_output])

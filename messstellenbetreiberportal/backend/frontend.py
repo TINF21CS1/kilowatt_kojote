@@ -150,7 +150,7 @@ def frontend_supplier_add(json: dict) -> dict:
 
     private_key, certificate, additional_certs = pkcs12.load_key_and_certificates(certificate_decoded, CERTIFICATE_PASSPHRASE, default_backend)
     supplier_serial = str(certificate.serial_number)
-    logger.info(f"Created a supplier '{json["name"]}' and the corresponding certificate with serial number {supplier_serial}")
+    logger.info(f"Created a supplier '{json['name']}' and the corresponding certificate with serial number {supplier_serial}")
 
     db_manager.frontend_supplier_add(supplier_serial, json["name"], json["notes"])
 
