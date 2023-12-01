@@ -58,6 +58,7 @@ serial_number_schema = {"type": "string", "minLength": 1}
 def register():
     json = request.get_json()
     sn = request.headers.get("X-Serialnumber")
+    sn = str(int(sn, 16))
 
     try:
         jsonschema.validate(json, smartmeter_register_schema)
@@ -74,6 +75,7 @@ def register():
 def data():
     json = request.get_json()
     sn = request.headers.get("X-Serialnumber")
+    sn = str(int(sn, 16))
 
     try:
         jsonschema.validate(json, smartmeter_data_schema)
