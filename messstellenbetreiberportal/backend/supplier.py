@@ -57,7 +57,6 @@ def reading_current():
 def smartmeter():
 
     sn = request.headers.get("X-Serialnumber")
-    sn = 1
 
     raw_output = db_manager.supplier_smartmeter(sn)
     logger.info(f"Called smartmeter: \n{raw_output}")
