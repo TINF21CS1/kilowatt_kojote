@@ -21,7 +21,7 @@ jobs:
           - context: .
             file: ./infra/swagger.Dockerfile
           - context: ./messstellenbetreiberportal
-            file: ./messstellenbetreiber/webapp.Dockerfile
+            file: ./messstellenbetreiberportal/webapp.Dockerfile
           - context: ./smartmeter
             file: ./smartmeter/smartmeter.Dockerfile
           - context: ./smartmeter
@@ -29,7 +29,7 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
@@ -37,7 +37,7 @@ jobs:
         with:
           platforms: ${{ matrix.platform }}
 
-      - name: Build and push
+      - name: Build container
         uses: docker/build-push-action@v5
         with:
           context: ${{ matrix.file.context }}
