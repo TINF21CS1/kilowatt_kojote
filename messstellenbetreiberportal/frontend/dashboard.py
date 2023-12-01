@@ -22,6 +22,8 @@ def dashboard():
     except JSONValidationError as e:
         logger.exception(e)
         return render_template('error.html', errors=str(e))
+    
+    logger.info(f"Calculating usage information and errors for all smartmeters")
 
     # Get uptime for all smartmeters
     current_time = int(time.time())
@@ -30,7 +32,14 @@ def dashboard():
     # Get average uptime for last 24 hours
     day_interval = 60*60*24
     last_24_hour_uptime = {key: value for key, value in uptime.items() if key >= current_time-day_interval}
-    average_uptime = sum(last_24_hour_uptime.values()) / len(last_24_hour_uptime) if len(last_24_hour_uptime) > 0 else 0
+    
+    if len(last_24_hour_uptime) > 0:
+        average_uptime = sum(last_24_hour_uptime.values()) / len(last_24_hour_uptime)
+    else:
+        logger.warning(f"Uptime of last 24 hours did not return anything. The average defaults to 0...")
+        average_uptime = 0
+
+    logger.info(f"Average uptime: {average_uptime}")
 
     # Get current usage and avg 24 usage
     smartmeters = smartermeter_usage(smartmeters)
@@ -39,7 +48,13 @@ def dashboard():
         if len(smartmeter["data"]) > 1:
             current_usages.append(smartmeter["data"][0]["usage"])
 
-    avgerage_current_usage = sum(current_usages) / len(current_usages) if current_usages else 0
+    if current_usages:
+        average_current_usage = sum(current_usages) / len(current_usages) 
+    else:
+        logger.warning(f"Current usages did not return anything. The average defaults to 0...")
+        average_current_usage = 0
+
+    logger.info(f"Average current usage: {average_current_usage}")
 
     # Location Data from string
     for smartmeter in smartmeters:
@@ -58,5 +73,5 @@ def dashboard():
         average_uptime = round(average_uptime*100, 2),
         smartmeters=smartmeters,
         errors=errors_smartmeter(smartmeters),
-        usage=avgerage_current_usage
+        usage=average_current_usage
     )

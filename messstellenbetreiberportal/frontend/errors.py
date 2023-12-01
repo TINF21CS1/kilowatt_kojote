@@ -1,5 +1,8 @@
 from .availability import INTERVAL
 from datetime import datetime, timedelta
+import logging
+
+logger = logging.getLogger(__name__)
 
 def dowtime_error(smartmeter:dict, interval:int = INTERVAL) -> list:
     """Calculates the errors of a smartmeter.
@@ -52,7 +55,7 @@ def backwards_reading_error(smartmeter:dict) -> list:
 
     return errors
 
-def errors_smartmeter(smartmeter:list, interval:int = INTERVAL) -> list:
+def errors_smartmeter(smartmeter:list) -> list:
     """Calculates the errors of a list of smartmeters.
 
     Args:
@@ -65,8 +68,10 @@ def errors_smartmeter(smartmeter:list, interval:int = INTERVAL) -> list:
     # Get the errors for each smartmeter
     errors = []
     for meter in smartmeter:
+        logger.info(f"Getting errors for smartmeter: {meter['uuid']}, type: {meter['type']}")
         errors += dowtime_error(meter)
         if meter["type"] not in [2,3]:
             errors += backwards_reading_error(meter)
 
+        logger.info(f"Got errors: {errors}")
     return errors
