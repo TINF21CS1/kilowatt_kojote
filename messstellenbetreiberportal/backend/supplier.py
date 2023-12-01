@@ -57,8 +57,10 @@ def reading_current():
 def smartmeter():
 
     sn = request.headers.get("X-Serialnumber")
+    sn = 1
 
     raw_output = db_manager.supplier_smartmeter(sn)
+    print(f"Called smartmeter: \n{raw_output}")
     keys = ["uuid", "type", "latitude", "longitude", "supplier"]
 
     return jsonify([dict(zip(keys, row)) for row in raw_output])
