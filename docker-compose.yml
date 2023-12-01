@@ -43,7 +43,17 @@ services:
       - /srv/backup/:/out/:rw
     networks:
       server:
-
+  
+  db-mgmt:
+    build:
+      context: .
+      dockerfile: ./infra/db-mgmt.Dockerfile
+    volumes:
+      - database:/database/db/:rw
+    networks:
+      server:
+    profiles:
+      - donotstart
   
   # Frontend
   messstellenbetreiberportal:
