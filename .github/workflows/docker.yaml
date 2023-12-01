@@ -26,6 +26,8 @@ jobs:
             file: ./smartmeter/smartmeter.Dockerfile
           - context: ./smartmeter
             file: ./smartmeter/environment.Dockerfile
+          - context: ./infra
+            file: ./infra/backup.Dockerfile
 
     steps:
       - name: Checkout Code
