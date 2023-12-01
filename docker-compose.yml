@@ -64,9 +64,7 @@ services:
       meters:
     depends_on:
       - environment
-      - messstellenbetreiberportal
       - ca
-      - proxy
     deploy:
       replicas: 25
 
