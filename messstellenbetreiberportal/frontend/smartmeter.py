@@ -44,11 +44,8 @@ def detail():
     # Create list of smartmeters
     try:
         logger.info(f"Requesting smartmeter detail data. (Args: {request.args})")
-        smartmeter = [{
-            "uuid" : request.args.get("id"),
-            "data" : frontend_smartmeter_reading(request.args.get("id"))
-        }]
-    except JSONValidationError as e:
+        smartmeter = [next(smartmeter for smartmeter in frontend_smartmeter() if smartmeter["uuid"] == request.args.get("id"))]
+    except (JSONValidationError, StopIteration) as e:
         logger.exception(e)
         return render_template('error.html', errors=str(e))
 
