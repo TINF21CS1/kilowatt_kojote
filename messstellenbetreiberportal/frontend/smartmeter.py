@@ -9,7 +9,7 @@ from ..backend.frontend import frontend_smartmeter_revoke, frontend_smartmeter, 
 import time
 import logging
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('waitress')
 
 bp = Blueprint('smartmeter', __name__, url_prefix='/smartmeter')
 

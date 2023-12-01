@@ -12,7 +12,7 @@ MAX_SUPPLIER_NOTES_LEN = 5000
 
 CA_DOMAIN_NAME = "http://ca.kilowattkojote.de/api"
 CERTIFICATE_PASSPHRASE = b"kilowattkojote"
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('waitress')
 
 frontend_supplier_add_schema = {
     "type": "object",

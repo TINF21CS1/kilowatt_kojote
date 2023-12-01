@@ -6,7 +6,7 @@ from io import BytesIO
 import base64
 from ..backend.frontend import frontend_supplier_add, frontend_supplier_assign, frontend_supplier, frontend_smartmeter, JSONValidationError
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('waitress')
 
 bp = Blueprint('supplier', __name__, url_prefix='/supplier')
 

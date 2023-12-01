@@ -10,7 +10,7 @@ import logging
 from ..backend.frontend import frontend_smartmeter, JSONValidationError
 from .smartmeter import smartermeter_usage
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('waitress')
 
 bp = Blueprint('dashboard', __name__, url_prefix='/')
 

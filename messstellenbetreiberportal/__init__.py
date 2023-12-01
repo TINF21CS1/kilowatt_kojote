@@ -2,8 +2,8 @@ from flask import Flask
 import os
 import logging
 
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('waitress')
+logger.setLevel(logging.INFO)
 
 def create_app():
     logger.info("Starting Flask app...")

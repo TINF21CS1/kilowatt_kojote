@@ -2,7 +2,7 @@ from .availability import INTERVAL
 from datetime import datetime, timedelta
 import logging
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('waitress')
 
 def dowtime_error(smartmeter:dict, interval:int = INTERVAL) -> list:
     """Calculates the errors of a smartmeter.
