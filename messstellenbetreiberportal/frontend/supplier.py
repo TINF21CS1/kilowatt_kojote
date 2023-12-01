@@ -26,7 +26,6 @@ def add():
         try: 
             dict = frontend_supplier_add({"name": name, "notes": notes})
             cert = base64.b64decode(dict["certificate"])
-            logger.info(f"Received Certificate for new supplier: {cert}")
         except JSONValidationError as e:
             logger.exception(e)
             return render_template('error.html', errors=str(e))
