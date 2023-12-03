@@ -52,8 +52,6 @@ def detail():
 
     smartmeter = smartermeter_usage(smartmeter)
 
-    print(smartmeter)
-
     # Get uptime for smartmeter
     current_time = int(time.time())
     uptime = uptime_smartmeters(smartmeter, current_time=current_time)
@@ -79,9 +77,12 @@ def unix_to_datetime(unix_time):
 # Expand smartmeter data with usage details
 def smartermeter_usage(smartmeters:list) -> list:
     for smartmeter in smartmeters:
-        for i, data in enumerate(smartmeter["data"]):
+        sorted_data_list = sorted(smartmeter["data"], key=lambda x: x["timestamp"])
+        for i, data in enumerate(sorted_data_list):
             # Check if previous list entry exists
             if len(smartmeter["data"]) > i+1:
                 # Calculate usage
                 data["usage"] = round((data["reading"] - smartmeter["data"][i+1]["reading"])*1000 / (data["timestamp"] - smartmeter["data"][i+1]["timestamp"]), 2) if data["timestamp"] - smartmeter["data"][i+1]["timestamp"] != 0 else "FEHLER"
+            else:
+                data["usage"] = 0
     return smartmeters

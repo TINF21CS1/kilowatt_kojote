@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 set -e
 
 if [[ "$(cat /app/init_complete)" == "1" ]]; then
@@ -23,12 +23,14 @@ else
 
     echo "[+] adding random offset to cronjob"
     # random offset
-    rand=$((1 + $RANDOM % 14))
+    rand=$(python -c "import random; print(random.randint(0,14))")
+    rand1=${rand}
     rand2=$((rand+15))
     rand3=$((rand+30))
     rand4=$((rand+45))
     sed -i "s/0,15,30,45/${rand},${rand2},${rand3},${rand4}/g" /etc/cron.d/meter.cron
     crontab /etc/cron.d/meter.cron
+    echo "[+] added random offset '${rand}' and installed new crontab"
 
     echo "1" > /app/init_complete
 fi

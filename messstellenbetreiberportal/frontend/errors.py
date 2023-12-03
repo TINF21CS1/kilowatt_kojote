@@ -1,6 +1,5 @@
-from .availability import get_duration_downtime, INTERVAL
+from .availability import INTERVAL
 from datetime import datetime, timedelta
-import logging
 
 def dowtime_error(smartmeter:dict, interval:int = INTERVAL) -> list:
     """Calculates the errors of a smartmeter.
@@ -12,19 +11,20 @@ def dowtime_error(smartmeter:dict, interval:int = INTERVAL) -> list:
         list(dict): Errors (uuid, timestamp, duration)
     """
 
-    # Get the last reading
-    last_reading = smartmeter['data'][-1] if len(smartmeter['data']) > 0 else {"timestamp": 0}
-    downtime = get_duration_downtime(last_reading)
+    result = []
 
-    # Check if the last reading is older than the interval
-    if abs(downtime) > interval:
-        return [{
-            'uuid': smartmeter['uuid'],
-            'timestamp': datetime.utcfromtimestamp(last_reading['timestamp']).strftime('%Y-%m-%d %H:%M:%S'),
-            'message': f'Zähler sendet seit {timedelta(seconds=downtime)} keine Daten!'
-        }]
-    else:
-        return []
+    for reading in smartmeter['data']:
+        downtime = reading["actual_timestamp"] - reading["timestamp"]
+
+        # Check if the last reading is older than the interval
+        if abs(downtime) > interval:
+            result.append({
+                'uuid': smartmeter['uuid'],
+                'timestamp': datetime.utcfromtimestamp(reading["actual_timestamp"]).strftime('%Y-%m-%d %H:%M:%S'),
+                'message': f'Zähler sendet seit {timedelta(seconds=downtime)} keine Daten!'
+            })
+    
+    return result
     
 def backwards_reading_error(smartmeter:dict) -> list:
     """Checks if there is a backwards reading in a smartmeter.
@@ -66,6 +66,7 @@ def errors_smartmeter(smartmeter:list, interval:int = INTERVAL) -> list:
     errors = []
     for meter in smartmeter:
         errors += dowtime_error(meter)
-        errors += backwards_reading_error(meter)
+        if meter["type"] not in [2,3]:
+            errors += backwards_reading_error(meter)
 
     return errors

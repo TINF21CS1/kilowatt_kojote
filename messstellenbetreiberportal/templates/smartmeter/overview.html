@@ -13,8 +13,8 @@
         <th>Breitengrad</th>
         <th>Längengrad</th>
         <th>Stromanbieter</th>
-        <th>Letzter Zählerstand</th>
-        <th>Letzter Verbrauch</th>
+        <th>Letzter Zählerstand in kWh</th>
+        <th>Letzter Verbrauch in W</th>
       </tr>
     </thead>
     <tbody>
@@ -24,10 +24,14 @@
             <td>{{ smartmeter.type }}</td>
             <td>{{ smartmeter.latitude }}</td>
             <td>{{ smartmeter.longitude }}</td>
-            <td>{{ smartmeter.supplier }}</td>
+            {% if smartmeter.supplier %}
+                <td>{{ smartmeter.supplier }}</td>
+            {% else %}
+                <td> Nicht zugewiesen </td>
+            {% endif %}              
             {% if smartmeter.data %}
-                <td>{{ smartmeter.data[0]["reading"] }} kWh</td>
-                <td>{{ smartmeter.data[0]["usage"] }} W</td>
+                <td>{{ smartmeter.data[0]["reading"] }}</td>
+                <td>{{ smartmeter.data[0]["usage"] }}</td>
             {% else %}
                 <td> Keine Daten </td>
                 <td> Keine Daten </td>

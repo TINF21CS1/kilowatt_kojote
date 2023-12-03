@@ -2,8 +2,10 @@ from flask import Flask, request, jsonify, Blueprint
 from .db import db_manager
 import jsonschema
 import time
+import logging
 
 bp = Blueprint("smartmeter_backend", __name__, url_prefix="/api/smartmeter")
+logger = logging.getLogger(__name__)
 
 smartmeter_register_schema = {
     "type": "object",
@@ -56,12 +58,13 @@ serial_number_schema = {"type": "string", "minLength": 1}
 def register():
     json = request.get_json()
     sn = request.headers.get("X-Serialnumber")
+    sn = str(int(sn, 16))
 
     try:
         jsonschema.validate(json, smartmeter_register_schema)
         jsonschema.validate(sn, serial_number_schema)
     except jsonschema.ValidationError as e:
-        print(e)
+        logger.info(f"JSON Validation failed at /smartmeter/register from Client at {request.remote_addr}:\n{e}")
         return "", 400
 
     db_manager.smartmeter_register(sn, json["type"], round(json["latitude"], 5), round(json["longitude"], 5))
@@ -72,12 +75,13 @@ def register():
 def data():
     json = request.get_json()
     sn = request.headers.get("X-Serialnumber")
+    sn = str(int(sn, 16))
 
     try:
         jsonschema.validate(json, smartmeter_data_schema)
         jsonschema.validate(sn, serial_number_schema)
     except jsonschema.ValidationError as e:
-        print(e)
+        logger.info(f"JSON Validation failed at /smartmeter/data from Client at {request.remote_addr}:\n{e}")
         return "", 400
 
     actual_timestamp = int(time.time())
