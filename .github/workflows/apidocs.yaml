@@ -1,15 +1,16 @@
 name: Generate API Documentation
 
-# Run workflow on tags starting with v (eg. v2, v1.2.0)
 on:
   push:
+    branches:
+      - main
 
 jobs:
   Deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Generate Swagger UI
         uses: Legion2/swagger-ui-action@v1
         with:
