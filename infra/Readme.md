@@ -16,6 +16,12 @@ The Main System is a Hetzner CAX11 at srv1.kilowattkojote.de
 
 The DNS is also handled by Hetzner and managed manually.
 
+### Restarting after changes to smartemeters
+
+run restart.sh
+
+for changes to messtellenbetreier it should be fine.
+
 ### Getting certificates
 
 ```

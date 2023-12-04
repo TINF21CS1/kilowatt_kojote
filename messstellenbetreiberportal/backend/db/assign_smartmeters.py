@@ -1,4 +1,6 @@
-from . import db_manager
+#!/bin/bash
+
+import db_manager
 import os
 import sqlite3
 

@@ -1,4 +1,5 @@
 version: '3'
+name: main
 services:
   proxy:
     build:
@@ -49,7 +50,7 @@ services:
       context: .
       dockerfile: ./infra/db-mgmt.Dockerfile
     volumes:
-      - database:/database/db/:rw
+      - database:/db/:rw
     networks:
       server:
     profiles:
