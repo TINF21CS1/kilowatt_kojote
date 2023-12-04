@@ -49,7 +49,7 @@ def detail():
         logger.exception(e)
         return render_template('error.html', errors=str(e))
 
-    logger.info(f"Calculating usage information and errors for smartmeter: {smartmeter['uuid']}")
+    logger.info(f"Calculating usage information and errors for smartmeter: {smartmeter[0]['uuid']}")
     smartmeter = smartermeter_usage(smartmeter)
 
     # Get uptime for smartmeter
