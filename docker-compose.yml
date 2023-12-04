@@ -33,6 +33,17 @@ services:
       dockerfile: ./infra/swagger.Dockerfile
     networks:
       server:
+  backup:
+    build:
+      context: ./infra/
+      dockerfile: backup.Dockerfile
+    volumes:
+      - database:/in/db/:ro
+      - /srv/ca/:/in/ca/:ro
+      - /srv/backup/:/out/:rw
+    networks:
+      server:
+
   
   # Frontend
   messstellenbetreiberportal:
@@ -64,9 +75,7 @@ services:
       meters:
     depends_on:
       - environment
-      - messstellenbetreiberportal
       - ca
-      - proxy
     deploy:
       replicas: 25
 
