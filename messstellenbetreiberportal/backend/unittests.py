@@ -1,5 +1,5 @@
 import unittest
-from .db import db_manager
+from db import db_manager
 
 class TestSQLI(unittest.TestCase):
         
