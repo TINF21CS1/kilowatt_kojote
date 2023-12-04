@@ -4,7 +4,7 @@ import jsonschema
 import logging
 
 bp = Blueprint("supplier_backend", __name__, url_prefix="/api/supplier")
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('waitress')
 
 serial_number_schema = {
     "type": "string",

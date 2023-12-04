@@ -1,5 +1,8 @@
 import time
 from collections import OrderedDict
+import logging
+
+logger = logging.getLogger('waitress')
 
 INTERVAL = 60*15 # 15 minutes
 TIMEFRAME = 60*60*24*30 # 30 days
@@ -15,6 +18,7 @@ def get_uptime(readings:list, interval:int = INTERVAL, timeframe:int = TIMEFRAME
     """
 
     if len(readings) == 0:
+        logger.warning(f"Did not receive any reading for uptime calculation. Returning default. (Current time: 0)")
         return {current_time: 0}
 
     # Iterate through the whole timeframe in intervals of 15 minutes and calculate the uptime
@@ -26,6 +30,7 @@ def get_uptime(readings:list, interval:int = INTERVAL, timeframe:int = TIMEFRAME
         else:
             uptime[i] = 0
 
+    logger.info(f"Calculated uptime over last {TIMEFRAME} seconds. ({len(uptime)} values)")
     return uptime
 
 def uptime_smartmeters(smartmeter:list, interval:int = INTERVAL, timeframe:int = TIMEFRAME, current_time:int = int(time.time())) -> dict:
@@ -39,6 +44,7 @@ def uptime_smartmeters(smartmeter:list, interval:int = INTERVAL, timeframe:int =
     """
 
     if not smartmeter:
+        logger.info("Did not receive any smartmeters! Returning empty dict for uptime!")
         return {}
 
     # Get the uptime for each smartmeter
@@ -50,6 +56,10 @@ def uptime_smartmeters(smartmeter:list, interval:int = INTERVAL, timeframe:int =
     average_uptime = OrderedDict()
     for i in uptime[smartmeter[0]['uuid']].keys():
         uptime_for_this_timestamp = [uptime[meter['uuid']][i] for meter in smartmeter if i in uptime[meter['uuid']]]
-        average_uptime[i] = sum(uptime_for_this_timestamp) / len(uptime_for_this_timestamp) if uptime_for_this_timestamp else 0
+        if uptime_for_this_timestamp:
+            average_uptime[i] = sum(uptime_for_this_timestamp) / len(uptime_for_this_timestamp)
+        else:
+            logger.warning(f"Uptime for timestamp {i} did not return anything. The average defaults to 0... This is highly unlikely and should be investigated!")
+            average_uptime[i] = 0
 
     return average_uptime
