@@ -11,15 +11,16 @@ def main():
     datastore.append(data)
     resp = requests.send(datastore)
     if(resp.status_code != 200):
-        print("Request failed. Status code: " + str(resp.status_code))
-        print(resp.content)
         write_buffer(datastore)
+    
 
 def register():
     config = read_config()
     register = {"type": config.get("type"),
             "latitude": config.get("latitude"),
             "longitude": config.get("longitude"),}
-    print(register)
+    print(f'Current configuration is: {register}')
+    waittime = 5
     while(requests.register(register).status_code != 200):
-        time.sleep(5)
+        print(f'Waiting {waittime} seconds until registering again...')
+        time.sleep(waittime)
