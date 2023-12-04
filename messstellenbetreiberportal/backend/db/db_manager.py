@@ -125,7 +125,7 @@ def frontend_supplier_smartmeter(supplier_serial):
 # Insert a new supplier. The serial has to be generated beforehand
 def frontend_supplier_add(supplier_serial, name, notes):
 
-    query = "INSERT INTO Stromanbieter (supplier_serial_number, supplier_name, notes) VALUES(?, ?, ?);"
+    query = "INSERT OR IGNORE INTO Stromanbieter (supplier_serial_number, supplier_name, notes) VALUES(?, ?, ?);"
 
     con = sqlite3.connect(db_path)
     cursor = con.cursor()

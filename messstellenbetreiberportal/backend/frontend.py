@@ -138,6 +138,8 @@ def frontend_supplier_add(json: dict) -> dict:
 
     try:
         jsonschema.validate(json, frontend_supplier_add_schema)
+        json["name"] = json["name"].replace(";", "").replace("/", "")
+        jsonschema.validate(json, frontend_supplier_add_schema)
     except jsonschema.ValidationError as e:
         logger.info(f"Validation of adding a supplier from frontend failed:\n{e}")
         raise JSONValidationError("Validation of data failed")

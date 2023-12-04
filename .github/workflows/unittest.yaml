@@ -1,0 +1,18 @@
+name: Run Unit tests
+
+on:
+  push:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+      - name: Install dependencies
+        run: pip install -r ./messstellenbetreiberportal/requirements.txt
+      - name: Setup Database
+        run: python3 messstellenbetreiberportal/backend/db/db_manager.py
+      - name: Run tests
+        run: python3 messstellenbetreiberportal/backend/unittests.py
