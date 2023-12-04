@@ -6,7 +6,7 @@ from io import BytesIO
 import base64
 from ..backend.frontend import frontend_supplier_add, frontend_supplier_assign, frontend_supplier, frontend_smartmeter, JSONValidationError
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('waitress')
 
 bp = Blueprint('supplier', __name__, url_prefix='/supplier')
 
@@ -18,7 +18,8 @@ def supplier():
 
 @bp.route('/add', methods=['GET', 'POST'])
 def add():
-    if request.method == 'POST':
+    if request.method == 'POST' and "name" in request.form and "notes" in request.form:
+        logger.info(f"Received POST on /add (Name: {request.form['name']}, Notes: {request.form['notes']}). Adding new supplier...")
         name = request.form['name']
         notes = request.form['notes']
         
@@ -33,6 +34,7 @@ def add():
         buffer.write(cert)
         buffer.seek(0)
 
+        logger.info(f"Initiating Certificate Download")
         return send_file(
             buffer,
             as_attachment=True,
@@ -44,7 +46,8 @@ def add():
 
 @bp.route('/assign', methods=['GET', 'POST'])
 def assign():
-    if request.method == 'POST':
+    if request.method == 'POST' and "smartmeter" in request.form and "supplier" in request.form:
+        logger.info(f"Received POST on /assign (Smartmeter UUID: {request.form['smartmeter']}, Supplier UUID: {request.form['supplier']}). Assigning supplier to smartmeter...")
         smartmeter_uuid = request.form['smartmeter']
         supplier_uuid = request.form['supplier']
         
@@ -54,6 +57,7 @@ def assign():
             logger.exception(e)
             return render_template('error.html', errors=str(e))
         
+        logger.info(f"Assigning successful. Redirecting...")
         return redirect(url_for('supplier.supplier'))
     
     else:

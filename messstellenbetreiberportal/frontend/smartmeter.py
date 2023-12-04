@@ -3,14 +3,13 @@ from flask import (
 )
 
 from datetime import datetime
-from .testdata import get_smartmeter_test_list
 from .availability import uptime_smartmeters
 from .errors import errors_smartmeter
 from ..backend.frontend import frontend_smartmeter_revoke, frontend_smartmeter, frontend_smartmeter_reading, JSONValidationError
 import time
 import logging
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('waitress')
 
 bp = Blueprint('smartmeter', __name__, url_prefix='/smartmeter')
 
@@ -23,11 +22,13 @@ def smartmeter():
     
 def overview():
     if request.method == 'POST' and "id" in request.form:
+        logger.info(f"Received POST on /smartmeter for revocation (ID: {request.form['id']}). Revoking smartmeter...")
         try:
             frontend_smartmeter_revoke(request.form["id"])
         except JSONValidationError as e:
             logger.exception(e)
             return render_template('error.html', errors=str(e))
+        logger.info(f"Revocation successful")
 
     try:
         smartmeters = frontend_smartmeter()
@@ -42,14 +43,13 @@ def overview():
 def detail():
     # Create list of smartmeters
     try:
-        smartmeter = [{
-            "uuid" : request.args.get("id"),
-            "data" : frontend_smartmeter_reading(request.args.get("id"))
-        }]
-    except JSONValidationError as e:
+        logger.info(f"Requesting smartmeter detail data. (Args: {request.args})")
+        smartmeter = [next(smartmeter for smartmeter in frontend_smartmeter() if smartmeter["uuid"] == request.args.get("id"))]
+    except (JSONValidationError, StopIteration) as e:
         logger.exception(e)
         return render_template('error.html', errors=str(e))
 
+    logger.info(f"Calculating usage information and errors for smartmeter: {smartmeter['uuid']}")
     smartmeter = smartermeter_usage(smartmeter)
 
     # Get uptime for smartmeter

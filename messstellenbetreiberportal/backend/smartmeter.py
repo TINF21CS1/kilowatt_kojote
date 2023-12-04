@@ -5,7 +5,7 @@ import time
 import logging
 
 bp = Blueprint("smartmeter_backend", __name__, url_prefix="/api/smartmeter")
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('waitress')
 
 smartmeter_register_schema = {
     "type": "object",
