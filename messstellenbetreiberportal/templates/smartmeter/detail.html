@@ -1,10 +1,10 @@
 {% extends 'overview_template.html' %}
 
 {% block header %}
-<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css" />
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='jquery.dataTables.css') }}">
+<script src="{{ url_for('static', filename='chart.js') }}"></script>
+<script type="text/javascript" charset="utf8" src="{{ url_for('static', filename='jquery-3.6.0.min.js') }}"></script>
+<script type="text/javascript" charset="utf8" src="{{ url_for('static', filename='jquery.dataTables.js') }}"></script>
 {% endblock %}
 
 {% block title %}Stromzähler: {{ uuid }}{% endblock %}
