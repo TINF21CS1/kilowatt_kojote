@@ -38,7 +38,14 @@ def overview():
     
     smartmeters = smartermeter_usage(smartmeters)
 
-    return render_template('smartmeter/overview.html', smartmeters=smartmeters)
+    type_translator = {
+        0: "Wohnhaus", 
+        1: "Industrie", 
+        2: "Einspeisung", 
+        3: "Einspeisung Wohnhaus"
+    }
+
+    return render_template('smartmeter/overview.html', smartmeters=smartmeters, type_translator=type_translator)
 
 def detail():
     # Create list of smartmeters
