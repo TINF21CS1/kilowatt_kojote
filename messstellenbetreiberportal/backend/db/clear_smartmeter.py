@@ -1,13 +1,18 @@
+#!/bin/python3
+
 import sqlite3
 import os
 
-db_path = os.path.join(os.path.dirname(__file__), "database.db")
+# Here, the database is in a subdirectory to work with the docker stuff
+db_path = os.path.join(os.path.dirname(__file__), "db/database.db")
 
 if __name__ == "__main__":
-    query = "DELETE FROM Stromzaehler; VACUUM;"
+    query = "DELETE FROM Stromzaehler;"
 
     con = sqlite3.connect(db_path)
     cursor = con.cursor()
 
-    res = cursor.execute(query)
+    cursor.execute(query)
     con.commit()
+    
+    cursor.execute("VACUUM;")
