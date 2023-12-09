@@ -31,7 +31,7 @@ on the dev machine:
 
 ```
 apt install apache2-utils
-htpasswd infra/files/srv/proxy/.htpasswd <username>
+htpasswd -bB ./infra/proxy/.htpasswd <username> <password>
 ```
 
 ### Creating a CA
