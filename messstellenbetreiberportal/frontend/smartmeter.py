@@ -89,9 +89,7 @@ def smartermeter_usage(smartmeters:list) -> list:
             # Check if previous list entry exists
             if len(smartmeter["data"]) > i+1:
                 # Calculate usage
-                smartmeter["data"][i+1]["usage"] = round(
-                    (smartmeter["data"][i+1]["reading"] - data["reading"]) / ((smartmeter["data"][i+1]["timestamp"] - data["timestamp"]) / 60*60), 2
-                    ) if data["timestamp"] - smartmeter["data"][i+1]["timestamp"] != 0 else "FEHLER"
+                data["usage"] = round((data["reading"] - smartmeter["data"][i+1]["reading"])*1000 / (data["timestamp"] - smartmeter["data"][i+1]["timestamp"]), 2) if data["timestamp"] - smartmeter["data"][i+1]["timestamp"] != 0 else "FEHLER"
             else:
                 data["usage"] = 0
     return smartmeters
