@@ -11,6 +11,9 @@ ADD https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css /app/static/jque
 ADD https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js /app/static/jquery.dataTables.js
 ADD https://unpkg.com/leaflet@1.9.4/dist/leaflet.css /app/static/leaflet.css
 ADD https://unpkg.com/leaflet@1.9.4/dist/leaflet.js /app/static/leaflet.js
+ADD https://unpkg.com/leaflet@1.9.4/dist/images/layers.png /app/static/images/layers.png
+ADD https://unpkg.com/leaflet@1.9.4/dist/images/layers-2x.png /app/static/images/layers-2x.png
+ADD https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png /app/static/images/marker-icon.png
 
 COPY ./frontend /app/frontend
 COPY ./backend /app/backend
