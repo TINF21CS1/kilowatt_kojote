@@ -38,7 +38,14 @@ def overview():
     
     smartmeters = smartermeter_usage(smartmeters)
 
-    return render_template('smartmeter/overview.html', smartmeters=smartmeters)
+    type_translator = {
+        0: "Wohnhaus", 
+        1: "Industrie", 
+        2: "Einspeisung", 
+        3: "Einspeisung Wohnhaus"
+    }
+
+    return render_template('smartmeter/overview.html', smartmeters=smartmeters, type_translator=type_translator)
 
 def detail():
     # Create list of smartmeters
@@ -82,7 +89,9 @@ def smartermeter_usage(smartmeters:list) -> list:
             # Check if previous list entry exists
             if len(smartmeter["data"]) > i+1:
                 # Calculate usage
-                data["usage"] = round((data["reading"] - smartmeter["data"][i+1]["reading"])*1000 / (data["timestamp"] - smartmeter["data"][i+1]["timestamp"]), 2) if data["timestamp"] - smartmeter["data"][i+1]["timestamp"] != 0 else "FEHLER"
+                smartmeter["data"][i+1]["usage"] = round(
+                    (smartmeter["data"][i+1]["reading"] - data["reading"]) / ((smartmeter["data"][i+1]["timestamp"] - data["timestamp"]) / 60*60), 2
+                    ) if data["timestamp"] - smartmeter["data"][i+1]["timestamp"] != 0 else "FEHLER"
             else:
                 data["usage"] = 0
     return smartmeters

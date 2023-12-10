@@ -14,14 +14,14 @@
         <th>Längengrad</th>
         <th>Stromanbieter</th>
         <th>Letzter Zählerstand in kWh</th>
-        <th>Letzter Verbrauch in W</th>
+        <th>Letzter Verbrauch in kW</th>
       </tr>
     </thead>
     <tbody>
       {% for smartmeter in smartmeters %}
         <tr>
             <td> <a href="{{ url_for('smartmeter.smartmeter', id=smartmeter.uuid) }}">{{ smartmeter.uuid }}</a></td>
-            <td>{{ smartmeter.type }}</td>
+            <td>{{ type_translator[smartmeter.type] }}</td>
             <td>{{ smartmeter.latitude }}</td>
             <td>{{ smartmeter.longitude }}</td>
             {% if smartmeter.supplier %}
