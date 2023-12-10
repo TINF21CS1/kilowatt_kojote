@@ -14,6 +14,8 @@ ADD https://unpkg.com/leaflet@1.9.4/dist/leaflet.js /app/static/leaflet.js
 ADD https://unpkg.com/leaflet@1.9.4/dist/images/layers.png /app/static/images/layers.png
 ADD https://unpkg.com/leaflet@1.9.4/dist/images/layers-2x.png /app/static/images/layers-2x.png
 ADD https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png /app/static/images/marker-icon.png
+ADD https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png /app/static/images/marker-icon-2x.png
+ADD https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png /app/static/images/marker-shadow.png
 
 COPY ./frontend /app/frontend
 COPY ./backend /app/backend
